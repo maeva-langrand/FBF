@@ -6,9 +6,14 @@
 <a href="/nouvelle-partie" class="index_newgame">Nouvelle partie ✨</a>
 
 <div class="index_buttons_block">
+
+   <% if (admin) { %>
 <a href="/themes/nouveau-theme" class="index_buttons">Créer un thème</a>
 <a href="/questions/nouvelle-question" class="index_buttons">Ajouter une question</a>
+  <% } %>
+
 </div>
+
 
 </main>
 <%- include("partials/footer.ejs") %>

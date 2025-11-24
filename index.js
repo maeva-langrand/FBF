@@ -2,8 +2,11 @@
 import "dotenv/config";
 import path from "node:path";
 import express from "express";
+import session from "express-session"
+
 import { themeRouter } from "./app/routers/theme-router.js";
 import { questionRouter } from "./app/routers/question-router.js";
+import { adminRouter } from "./app/routers/admin-router.js";
 
 
 const app = express();
@@ -17,6 +20,17 @@ app.set("views", path.join(__dirname, "app/views"));
 // les statics
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false
+}));
+
+app.use((req, res, next) => {
+  res.locals.admin = req.session.admin || null;
+  next();
+});
+
 // middleware pour parser les body
 app.use(express.urlencoded({ extended: true }));
 
@@ -29,6 +43,7 @@ app.get("/", (req, res) => {
 
 app.use(themeRouter);
 app.use(questionRouter);
+app.use(adminRouter);
 
 
 // middleware de gestion d'erreur 500 global
