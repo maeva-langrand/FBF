@@ -1,10 +1,7 @@
-import themes from "./../data/themes.json" with { type:"json" };
-import fs from "fs";
-import path from "path";
+import { findAllThemes, findThemeById, createTheme, updateTheme } from "../datamappers/datamapper.js";
 
-const themesPath = path.join(process.cwd(), "app/data/themes.json");
-
-export function themesPage (req, res) {
+export async function themesPage (req, res) {
+    const themes = await findAllThemes();
   res.render("themes", { 
   themes, 
   pagetitle: "| Tous les thèmes",
@@ -14,13 +11,14 @@ export function themesPage (req, res) {
 
 
 /* EDITER UN THEME */
-export function themeEditPage(req, res) {
+export async function themeEditPage(req, res) {
     const themeId = parseInt(req.params.id);
 
-    const themes = JSON.parse(fs.readFileSync(themesPath));
-    const theme = themes.find(t => t.id === themeId);
 
-    if (!theme) return res.status(404).send("Thème non trouvé");
+try {
+    const theme = await findThemeById(themeId);
+    if (!theme) {
+        return res.status(404).send("Thème non trouvé");}
 
     res.render("theme", {
         theme,
@@ -28,6 +26,10 @@ export function themeEditPage(req, res) {
         pagetitle: "| Éditer un thème",
         css: "theme.css"
     });
+} catch (err) {
+    console.error("Erreur dans themeEdithPage :", err)
+    res.status(500).send("Erreur serveur");
+}
 }
 
 /* CREER UN THEME */
@@ -46,4 +48,23 @@ export function themeAddNewPage(req, res) {
         pagetitle: "| Ajouter un thème",
         css: "theme.css"
     });
+}
+
+export async function themeCreateNewTheme(req, res) {
+    try {
+      const { theme_name, slug, color, image } = req.body;
+    
+      const newTheme = await createTheme({
+      theme_name,
+      slug,
+      color,
+      theme_image: image || null
+    });
+
+
+    res.redirect("/themes");
+  } catch (err) {
+    console.error("Erreur lors de la création du thème :", err);
+    res.status(500).send("Erreur serveur");
+  }
 }
