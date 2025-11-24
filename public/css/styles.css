@@ -1,0 +1,465 @@
+:root {
+    height: 100%;
+    margin: 0;
+    background-color: var(--main-color);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+     
+/* Variables */
+/* Couleurs des pages */
+--main-color: #faeed7;
+--second-color: #0d2914;
+--accent-color-1: #ef5c43;
+--accent-color-2: #feb433;
+--font-color-main: #1b8e93;
+--font-color-secondary: #f8f1e5;
+--standard-margin-padding: 2rem;
+--standard-gap: 2rem;
+
+/* Couleurs de thèmes 
+--sciences: #76af7f; 
+--histoire: #c9845a;
+--geographie: #f2b880; 
+--art: #e07b39;
+--logique: #5c6b73; */
+
+/* Autres variables */
+--header-height: 4rem;
+}
+
+body {
+    color: var(--font-color-main);
+}
+
+.navbar {
+  padding: 1rem;
+  height: var(--header-height);
+}
+
+.header_small_logo {
+  width: 20%;
+}
+
+.nav-list {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+  gap: var(--standard-gap);
+}
+
+.nav_logo {
+  margin-right: auto;
+  font-size: 2rem;
+}
+
+.nav-list a {
+  color: var(--font-color-main);
+  text-transform: uppercase;
+  text-decoration: none;
+  font-weight: 700;
+}
+.nav-list a:hover {
+  text-decoration: overline;
+}
+
+h1 {
+text-align: center;
+padding: 2rem 0;
+}
+
+a {
+text-decoration: none;
+color: inherit;
+}
+
+/* VUE INDEX */
+.index_main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;  
+    min-height: calc(100vh - var(--header-height));
+}
+
+.index_big_logo{
+  max-width: 20%;
+}
+
+.index_newgame {
+    text-align: center;
+    color: var(--font-color-secondary);
+    font-size: 1.3rem;
+    text-transform: capitalize;
+    text-decoration: none;
+    font-weight: 800;
+    padding: 1rem 2rem;
+    border-radius: 2rem;
+    background-color: var(--accent-color-1);
+}
+
+.index_buttons_block {
+    display: flex;
+    width: 100%;
+    gap: var(--standard-gap);
+    background-color: var(--font-color-main);
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    margin-top: auto;
+}
+
+
+.index_buttons {
+    padding: 1rem 2rem;
+    text-decoration: none;
+    background-color: var(--accent-color-2);
+    color: var(--font-color-main);
+    border-radius: 2rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+
+
+/* VUE THEMES ET QUESTIONS*/
+
+.themes_main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between; 
+    min-height: calc(100vh - var(--header-height));    
+}
+
+.questions_main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;          
+}
+
+.themes_button, 
+.questions_button {
+    padding: .5rem 1.5rem;
+    margin-bottom: 2rem;
+    text-decoration: none;
+    background-color: var(--accent-color-2);
+    color: var(--font-color-main);
+    border-radius: 2rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+
+.index_buttons:hover,
+.index_newgame:hover,
+.themes_button:hover,
+.questions_button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+/* Questions */
+
+.questions_title {
+  position: relative;
+}
+
+.theme_name {
+ color: var(--theme-color);
+}
+
+.edit-theme {
+  margin-left: 0.5rem;
+  opacity: 0.3;
+  transition: opacity 0.2s ease;
+  text-decoration: none;
+  color: var(--accent-color-1);
+}
+
+.questions_title:hover .edit-theme {
+  opacity: 1;
+}
+
+
+.question_block {
+  align-self: flex-start;
+  text-align: left;
+  padding: 0 1rem;
+}
+
+.theme_title,
+.question_title {
+    color: var(--theme-color);
+    padding: 1rem 2rem 0 1rem;
+    margin: 3rem 0 1rem 0;
+    font-size: 1.7rem;
+    font-weight: 700;
+    border-bottom: solid 1px;
+}
+
+
+.timeline {
+    border-left: 4px solid var(--theme-color);
+    color: var(--theme-color);
+    margin-left: 18px;
+    padding-left: 18px;
+}
+
+.timeline_item {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+}
+
+.timeline_item .dot {
+    width: 12px;
+    height: 12px;
+    background: currentColor;
+    border-radius: 50%;
+    margin-left: -26px;
+}
+
+.question-answer-elem {
+    display: flex;
+    flex-direction: row;         
+    justify-content: space-between;
+    align-items: center;       
+    gap: 1rem;
+}
+
+.qa-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.question {
+    font-weight: 600;
+}
+
+.answer {
+    color: #666;
+    margin-left: 5px;
+    font-size: 0.95rem;
+}
+
+.edit_button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 1.5rem;
+    width: 1.5rem;
+    border-radius: .5rem;
+    opacity: 0.3;
+    transition: opacity 0.2s ease;
+    text-decoration: none;
+    font-size: .8rem;
+    transition: 0.2s;
+}
+
+.edit_button:hover {
+    background: currentColor;
+    opacity: 1;
+}
+
+
+/* Sidebar sommaire de "questions" */
+.questions_main {
+    position: relative;
+    min-height: calc(100vh - var(--header-height));
+}
+
+.questions_sidebar {
+    position: fixed;
+    right: 10rem;
+    top: 15rem;
+    width: 12rem;
+    padding: 1rem;
+    background: #fff4e1;
+    border: 1px solid #ccc;
+    border-radius: .75rem;
+
+}
+
+.questions_sidebar h3 {
+    margin-bottom: .5rem;
+    font-size: 1.2rem;
+}
+
+.questions_sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.questions_sidebar li {
+    margin: .5rem 0;
+}
+
+.questions_sidebar a {
+    text-decoration: none;
+    color: var(--font-color-main);
+    font-weight: 500;
+    transition: color .2s ease;
+}
+
+.questions_sidebar a:hover {
+    color: var(--accent-color-1);
+}
+
+
+
+/* VUE EDITER/AJOUTER UNE QUESTION */
+
+
+.edit_question_form {
+    max-width: 40rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+.edit_question_form .form-group {
+    display: flex;
+    flex-direction: column; 
+}
+
+.edit_question_form label {
+    font-weight: bold;
+    margin-bottom: .3rem;
+}
+
+.edit_question_form textarea,
+.edit_question_form input,
+.edit_question_form select {
+    padding: .5rem;
+    border: 1px solid #ccc;
+    border-radius: .5rem;
+    resize: vertical; 
+    background-color: #fff8ec;
+}
+
+.edit_submit_button {
+    padding: .5rem 1.5rem;
+    text-decoration: none;
+    border: none;
+    background-color: var(--accent-color-2);
+    color: var(--font-color-main);
+    border-radius: 2rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.edit_submit_button:hover,
+.edit_submit_cancel:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+.edit_submit_cancel {
+    padding: .5rem 1.5rem;
+    margin-bottom: 2rem;
+    text-decoration: none;
+    border: none;
+    background-color: #5c6b73;
+    color: var(--font-color-secondary);
+    border-radius: 2rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+
+/* VUE : ÉDITER / AJOUTER UN THÈME */
+
+.theme_form {
+    max-width: 40rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.theme_form .form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.theme_form label {
+    font-weight: bold;
+    margin-bottom: .3rem;
+}
+
+.theme_form input[type="text"],
+.theme_form input[type="color"],
+.theme_form input[type="file"],
+.theme_form select {
+    padding: .5rem;
+    border: 1px solid #ccc;
+    border-radius: .5rem;
+    background-color: #fff8ec;
+}
+
+.theme_form small {
+    margin-top: .3rem;
+    font-size: .85rem;
+    color: #666;
+}
+
+/* IMAGE */
+.theme_form img {
+    margin: .5rem 0;
+    border-radius: .5rem;
+    max-width: 200px;
+    border: 1px solid #ddd;
+}
+
+/* BOUTONS PRINCIPAUX */
+
+.theme_submit_button {
+    padding: .5rem 1.5rem;
+    border: none;
+    background-color: var(--accent-color-2);
+    color: var(--font-color-main);
+    border-radius: 2rem;
+    font-weight: 600;
+    text-align: center;
+    transition: 0.2s ease;
+}
+
+.theme_cancel_button {
+    padding: .5rem 1.5rem;
+    margin-bottom: 2rem;
+    text-decoration: none;
+    border: none;
+    background-color: #5c6b73;
+    color: var(--font-color-secondary);
+    border-radius: 2rem;
+    font-weight: 600;
+    text-align: center;
+    transition: 0.2s ease;
+}
+
+/* BOUTON SUPPRIMER L'IMAGE */
+.theme_delete_btn {
+    margin-top: .5rem;
+    padding: .4rem 1rem;
+    border: none;
+    background-color: #c0392b;
+    color: #fff;
+    border-radius: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+/* HOVER EFFECTS */
+.theme_submit_button:hover,
+.theme_cancel_button:hover,
+.theme_delete_btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}

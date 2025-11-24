@@ -1,0 +1,70 @@
+<%- include("partials/header.ejs") %>
+
+<main class="theme_main">
+
+    <h1 class="theme_title">
+        <%= mode === "edit" ? "Éditer le thème" : "Créer un nouveau thème" %>
+    </h1>
+
+    <form class="theme_form"
+          action="<%= mode === 'edit' ? '/themes/editer/' + theme.id : '/themes/nouveau-theme' %>"
+          method="POST" enctype="multipart/form-data">
+
+        <!-- NOM DU THÈME -->
+        <div class="form-group">
+            <label for="theme_name">Nom du thème :</label>
+            <input type="text" id="theme_name" name="theme_name"
+                   value="<%= theme.theme_name %>" required>
+        </div>
+
+        <!-- SLUG -->
+        <div class="form-group">
+            <label for="slug">Slug :</label>
+            <input type="text" id="slug" name="slug"
+                value="<%= theme.slug %>"
+                placeholder="ex : histoire-de-france"
+                required>
+            <small>Slug : nom du thème sans majuscule, ni espace, ni accent. <br>Exemple : Histoire de l'art devient histoire-de-l-art.</small>
+        </div>
+
+        <!-- COULEUR -->
+        <div class="form-group">
+            <label for="color">Couleur du thème :</label>
+            <input type="color" id="color" name="color"
+                   value="<%= theme.color %>" required>
+        </div>
+
+        <!-- IMAGE -->
+        <div class="form-group">
+            <label>Image du thème :</label>
+
+            <% if (mode === "edit" && theme.image) { %>
+                <p>Image actuelle :</p>
+                <img src="/uploads/<%= theme.image %>" style="max-width:200px;">
+
+                <div>
+                    <input type="file" name="newImage">
+                </div>
+
+                <div>
+                    <button type="submit" name="deleteImage" value="true"
+                        class="theme_delete_btn">Supprimer l'image</button>
+                </div>
+
+            <% } else { %>
+                <p>Aucune image associée.</p>
+                <input type="file" name="newImage">
+            <% } %>
+        </div>
+
+        <button class="theme_submit_button" type="submit">
+            Enregistrer
+        </button>
+
+        <a href="/themes" class="theme_cancel_button">Annuler</a>
+
+    </form>
+
+</main>
+
+<%- include("partials/footer.ejs") %>

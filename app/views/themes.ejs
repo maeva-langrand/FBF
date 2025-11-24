@@ -1,0 +1,23 @@
+<%- include("partials/header.ejs") %>
+
+
+<main class="themes_main">
+  <h1 class="themes_title">Tous les thèmes</h1>
+  <a href="/themes/nouveau-theme" class="themes_button">Créer un thème</a>
+
+  <div class="themes_grid">
+<% for (const theme of themes) { %> 
+ <article class="theme_card <%= theme.slug %>" style="--theme-color: <%= theme.color %>;">
+    <a href="/questions#<%= theme.slug %>">
+      <img src="<%= theme.theme_image %>" alt="<%= theme.theme_name %>">
+      <h2><%= theme.theme_name %></h2>
+    </a>
+    <a href="/themes/editer/<%= theme.id %>" class="edit_theme" title="Modifier le thème">✏️</a>
+  </article>
+<% } %>
+
+  </div>
+</main>
+
+<%- include("partials/footer.ejs") %>
+

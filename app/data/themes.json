@@ -1,0 +1,37 @@
+[
+    {
+        "id": 1,
+        "theme_name": "Sciences",
+        "slug": "sciences",
+        "color": "#76af7f",
+        "theme_image": "/img/sciences.png"
+    },
+    {
+        "id": 2,
+        "theme_name": "Histoire",
+        "slug": "histoire",
+        "color": "#c9845a",
+        "theme_image": "/img/histoire.png"
+    },
+        {
+        "id": 3,
+        "theme_name": "Géographie",
+        "slug": "geographie",
+        "color": "#f2b880",
+        "theme_image": "/img/geographie.png"
+    },
+        {
+        "id": 4,
+        "theme_name": "Art",
+        "slug": "art",
+        "color": "#e07b39",
+        "theme_image": "/img/logique.png"
+    },
+        {
+        "id": 5,
+        "theme_name": "Logique",
+        "slug": "logique",
+        "color": "#5c6b73",
+        "theme_image": "/img/logique.png"
+    }
+]

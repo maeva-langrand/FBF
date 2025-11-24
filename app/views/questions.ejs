@@ -1,0 +1,51 @@
+<%- include("partials/header.ejs") %>
+
+<main class="questions_main">
+    
+<h1 class="questions_title" id="toutes-questions">Toutes les questions</h1>
+
+<a href="/questions/nouvelle-question" class="questions_button">Ajouter une question</a>
+
+<nav class="questions_sidebar">
+     <a href="#toutes-questions"><h3>Sommaire</h3></a>
+    <ul>
+        <% themesAndQuestions.forEach(theme => { %>
+            <li>
+                <a href="#<%= theme.slug %>"><%= theme.theme_name %></a>
+            </li>
+        <% }) %>
+    </ul>
+</nav>
+
+<div class="question_block">
+<% themesAndQuestions.forEach(theme => { %>
+ <div id="<%= theme.slug %>" style="--theme-color: <%= theme.color %>;">
+  <h2 class="questions_title <%= theme.slug %>">
+    <span class="theme_name"><%= theme.theme_name %></span>
+    <a href="/themes/editer/<%= theme.id %>" class="edit-theme" title="Modifier le thème">
+      ✏️
+    </a>
+  </h2>
+
+    <div class="timeline <%= theme.slug %>">
+    <% theme.questions.forEach(question => { %>
+        <div class="timeline_item">
+            <div class="dot"></div>
+            <div class="question-answer-elem">
+                <a href="/questions/editer/<%= question.id %>" class="edit_button" title="Modifier la question">✏️</a>
+            <div class="qa-text">
+                <div class="question"><%= question.question %></div>
+                <div class="answer"><%= question.response %></div>
+                </div>
+
+            </div>
+        </div>
+    <% }) %>
+    </div>
+</div>
+<% }) %>
+</div>
+
+</main>
+
+<%- include("partials/footer.ejs") %>

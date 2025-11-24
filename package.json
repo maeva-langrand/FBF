@@ -1,0 +1,26 @@
+{
+  "name": "fbf",
+  "version": "1.0.0",
+  "description": "Jeu entre amis",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maeva-langrand/FBF.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maeva-langrand/FBF/issues"
+  },
+  "homepage": "https://github.com/maeva-langrand/FBF#readme",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "nodemon": "^3.1.11"
+  }
+}

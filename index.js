@@ -1,0 +1,44 @@
+// l'application
+import "dotenv/config";
+import path from "node:path";
+import express from "express";
+import { themeRouter } from "./app/routers/theme-router.js";
+import { questionRouter } from "./app/routers/question-router.js";
+
+
+const app = express();
+const __dirname = import.meta.dirname;
+const port = process.env.PORT || 3000;
+
+// moteur de vue
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "app/views"));
+
+// les statics
+app.use(express.static(path.join(__dirname, "public")));
+
+// middleware pour parser les body
+app.use(express.urlencoded({ extended: true }));
+
+
+app.get("/", (req, res) => {
+  res.render("index.ejs", {
+    pagetitle: "| Accueil",
+  });
+});
+
+app.use(themeRouter);
+app.use(questionRouter);
+
+
+// middleware de gestion d'erreur 500 global
+app.use((err, req, res, next) => {
+  console.log(err);
+  res.status(500).send("Erreur serveur interne... veuillez reessayer plus tard...");
+  next;
+});
+
+
+app.listen(port, () => {
+  console.log(`✨ FBF est prêt à l'adresse http://localhost:${port}`);
+});
