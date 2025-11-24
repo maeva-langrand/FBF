@@ -64,6 +64,10 @@ body {
   text-decoration: overline;
 }
 
+.navbar_connexion {
+font-style: italic;
+}
+
 h1 {
 text-align: center;
 padding: 2rem 0;

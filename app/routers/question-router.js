@@ -4,7 +4,7 @@ import { questionsPage, questionEditPage, questionAddNewPage } from "../controll
 import { adminOnly } from "../controllers/admin-controller.js";
 
 
-questionRouter.get("/questions", questionsPage);
+questionRouter.get("/questions", adminOnly, questionsPage);
 
 questionRouter.get("/questions/editer/:id", adminOnly, questionEditPage); 
 
