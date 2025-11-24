@@ -13,8 +13,7 @@
         <!-- NOM DU THÈME -->
         <div class="form-group">
             <label for="theme_name">Nom du thème :</label>
-            <input type="text" id="theme_name" name="theme_name"
-                   value="<%= theme.theme_name %>" required>
+            <input type="text" id="theme_name" name="theme_name" value="<%= theme.theme_name %>" required>
         </div>
 
         <!-- SLUG -->
@@ -43,7 +42,7 @@
                 <img src="/uploads/<%= theme.image %>" style="max-width:200px;">
 
                 <div>
-                    <input type="file" name="image">
+                    <input type="file" name="theme_image">
                 </div>
 
                 <div>
@@ -53,7 +52,7 @@
 
             <% } else { %>
                 <p>Aucune image associée.</p>
-                <input type="file" name="newImage">
+                <input type="file" name="theme_image">
             <% } %>
         </div>
 

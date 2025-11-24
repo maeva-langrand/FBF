@@ -12,7 +12,7 @@
 <% for (const theme of themes) { %> 
  <article class="theme_card <%= theme.slug %>" style="--theme-color: <%= theme.color %>;">
     <a href="/questions#<%= theme.slug %>">
-      <img src="<%= theme.theme_image %>" alt="<%= theme.theme_name %>">
+      <img src="/uploads/<%= theme.theme_image %>" alt="">
       <h2><%= theme.theme_name %></h2>
     </a>
     

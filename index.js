@@ -2,7 +2,8 @@
 import "dotenv/config";
 import path from "node:path";
 import express from "express";
-import session from "express-session"
+import session from "express-session";
+import multer from "multer";
 
 import { themeRouter } from "./app/routers/theme-router.js";
 import { questionRouter } from "./app/routers/question-router.js";
@@ -19,6 +20,9 @@ app.set("views", path.join(__dirname, "app/views"));
 
 // les statics
 app.use(express.static(path.join(__dirname, "public")));
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.use(session({
   secret: process.env.SESSION_SECRET,
