@@ -45,6 +45,14 @@ export function questionEditPage(req, res) {
     });
 }
 
+// Supprimer une question //
+export async function deleteQuestion(req, res) {
+    const { id } = req.params;
+
+    await pool.query("DELETE FROM questions WHERE id = $1", [id]);
+     res.redirect("/questions");
+}
+
 // PAGE : QUESTION (nouvelle question)
 export function questionAddNewPage(req, res) {
 

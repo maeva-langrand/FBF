@@ -23,7 +23,11 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  cookie: {
+  secure: false,
+  maxAge: 1000 * 60 * 60 * 12,
+}
 }));
 
 app.use((req, res, next) => {
