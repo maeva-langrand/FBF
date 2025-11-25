@@ -63,16 +63,17 @@
                         <% } %>
             </div>
 
-            <button class="edit_submit_button" type="submit">Enregistrer les modifications</button>
-            <a href="/questions" class="edit_submit_cancel">Annuler</a>
+           <button class="edit_submit_button" type="submit">Enregistrer les modifications</button>
+        <a href="/questions" class="edit_submit_cancel">Annuler</a>
 
-            <% if (mode==="edit" ) { %>
-                <form action="/questions/supprimer/<%= question.id %>" method="POST"
-                    onsubmit="return confirm('Voulez-vous vraiment supprimer cette question ?')">
-                    <button class="edit_delete_question" type="submit" class="edit_submit_delete">Supprimer cette
-                        question</button>
-                </form>
-                <% } %>
+    </form> <!-- fermeture du form principal  -->
+
+    <% if (mode === "edit") { %>
+        <form class="question_delete_form" action="/questions/supprimer/<%= question.id %>" method="POST"
+              onsubmit="return confirm('Voulez-vous vraiment supprimer cette question ?')">
+            <button class="edit_delete_question" type="submit">Supprimer cette question</button>
+        </form>
+    <% } %>
 
         </form>
     </main>

@@ -84,8 +84,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;        
+    justify-content: space-between;    
+    position: relative;
+    padding: 0 2rem;
+    min-height: calc(100vh - var(--header-height));
 }
+    
 
 .themes_button, 
 .questions_button {
@@ -214,11 +218,6 @@
 
 
 /* Sidebar sommaire de "questions" */
-.questions_main {
-    position: relative;
-    padding: 0 2rem;
-    min-height: calc(100vh - var(--header-height));
-}
 
 .questions_sidebar {
     position: fixed;
@@ -261,7 +260,9 @@
 
 
 /* VUE EDITER/AJOUTER UNE QUESTION */
-
+.question_main {
+    padding: 0 2rem;
+}
 
 .edit_question_form {
     max-width: 40rem;
@@ -321,9 +322,15 @@
     text-align: center;
 }
 
+.question_delete_form {
+    display: flex;
+   padding-bottom: 3rem;
+
+}
+
 .edit_delete_question {
     padding: .5rem 1.5rem;
-    margin-bottom: 2rem;
+    margin: auto;
     text-decoration: none;
     border: none;
     background-color: #c43218;
@@ -331,7 +338,10 @@
     border-radius: 2rem;
     font-weight: 600;
     text-align: center;
+    width: 40rem;
+    max-width: 100%;
 }
+
 
 
 /* VUE : ÉDITER / AJOUTER UN THÈME */
