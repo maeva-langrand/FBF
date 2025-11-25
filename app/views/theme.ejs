@@ -37,17 +37,17 @@
         <div class="form-group">
             <label>Image du thème :</label>
 
-            <% if (mode === "edit" && theme.image) { %>
+            <% if (mode === "edit" && theme.theme_image) { %>
                 <p>Image actuelle :</p>
-                <img src="/uploads/<%= theme.image %>" style="max-width:200px;">
+                <img src="/uploads/<%= theme.theme_image %>" style="max-width:200px;">
 
                 <div>
-                    <input type="file" name="theme_image">
+                    <input type="file" name="theme.theme_image">
                 </div>
 
                 <div>
                     <button type="submit" name="deleteImage" value="true"
-                        class="theme_delete_btn">Supprimer l'image</button>
+                        class="theme_delete_img_btn">Supprimer l'image</button>
                 </div>
 
             <% } else { %>

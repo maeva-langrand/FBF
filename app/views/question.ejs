@@ -2,12 +2,13 @@
 
     <main class="question_main">
 
-    <h1 class="question_title">
-        <%= mode === "edit" ? "Éditer la question" : "Créer une nouvelle question" %>
-    </h1>
+        <h1 class="question_title">
+            <%= mode==="edit" ? "Éditer la question" : "Créer une nouvelle question" %>
+        </h1>
 
 
-        <form class="edit_question_form" action="<%= mode === 'edit' ? '/questions/editer/' + question.id : '/questions/nouvelle-question' %>"
+        <form class="edit_question_form"
+            action="<%= mode === 'edit' ? '/questions/editer/' + question.id : '/questions/nouvelle-question' %>"
             method="POST" enctype="multipart/form-data">
 
             <div class="form-group">
@@ -22,48 +23,56 @@
             <div class="form-group">
                 <label for="question-theme">Modifier le thème :</label>
 
-<select name="theme" id="question-theme" required>
+                <select name="theme" id="question-theme" required>
 
-    <% if (mode === "create") { %>
-        <option value="" disabled selected>— Choisissez un thème —</option>
-    <% } else { %>
-        <option selected value="<%= question.theme %>">
-            <%= themes.find(t => t.id === question.theme).theme_name %>
-        </option>
-    <% } %>
+                    <% if (mode==="create" ) { %>
+                        <option value="" disabled selected>— Choisissez un thème —</option>
+                        <% } else { %>
+                            <option selected value="<%= question.theme %>">
+                                <%= themes.find(t=> t.id === question.theme).theme_name %>
+                            </option>
+                            <% } %>
 
-    <% themes.forEach(theme => { %>
-        <% if (mode === "edit" && theme.id === question.theme) return; %>
-        <option value="<%= theme.id %>"><%= theme.theme_name %></option>
-    <% }) %>
+                                <% themes.forEach(theme=> { %>
+                                    <% if (mode==="edit" && theme.id===question.theme) return; %>
+                                        <option value="<%= theme.id %>">
+                                            <%= theme.theme_name %>
+                                        </option>
+                                        <% }) %>
 
-</select>
+                </select>
             </div>
-       <div class="form-group">
-            <label>Image de la réponse :</label>
-            <% if (question.image) { %>
-                <p>Image actuelle :</p>
-                <img src="/uploads/<%= question.image %>" alt="Image de la question" style="max-width:200px;">
-                <div>
-                    <input type="file" name="newImage">
-                </div>
-                <div>
-                    <button type="submit" name="deleteImage" value="true" class="edit_submit_cancel">Supprimer l'image</button>
-                </div>
-            <% } else { %>
-                <p>Aucune image associée. L'image du thème sera utilisée par défaut.</p>
-                <input type="file" name="newImage">
-            <% } %>
-        </div>
+            <div class="form-group">
+                <label>Image de la réponse :</label>
+                <% if (question.question_image) { %>
+                    <p>Image actuelle :</p>
+                    <p><%= question.question_image %></p>
+                    
+                    <img src="/uploads/<%= question.question_image %>" alt="Image de la question"
+                        style="max-width:200px;">
+                    <div>
+                        <input type="file" name="newImage">
+                    </div>
+                    <div>
+                        <button type="submit" name="deleteImage" value="true" class="question_delete_img_btn">Supprimer
+                            l'image</button>
+                    </div>
+                    <% } else { %>
+                        <p>Aucune image associée. L'image du thème sera utilisée par défaut.</p>
+                        <input type="file" name="newImage">
+                        <% } %>
+            </div>
 
-        <button class="edit_submit_button" type="submit">Enregistrer les modifications</button>
-        <a href="/questions" class="edit_submit_cancel">Annuler</a>
+            <button class="edit_submit_button" type="submit">Enregistrer les modifications</button>
+            <a href="/questions" class="edit_submit_cancel">Annuler</a>
 
-        <% if (mode === "edit") { %>
-    <form action="/questions/supprimer/<%= question.id %>" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer cette question ?')">
-        <button class="edit_delete_question" type="submit" class="edit_submit_delete">Supprimer cette question</button>
-    </form>
-<% } %>
+            <% if (mode==="edit" ) { %>
+                <form action="/questions/supprimer/<%= question.id %>" method="POST"
+                    onsubmit="return confirm('Voulez-vous vraiment supprimer cette question ?')">
+                    <button class="edit_delete_question" type="submit" class="edit_submit_delete">Supprimer cette
+                        question</button>
+                </form>
+                <% } %>
 
         </form>
     </main>

@@ -1,4 +1,4 @@
-import { findAllThemes, findThemeById, createTheme, updateTheme } from "../datamappers/datamapper.js";
+import { findAllThemes, findThemeById, createTheme, updateTheme } from "../datamappers/theme-datamapper.js";
 
 export async function themesPage (req, res) {
     const themes = await findAllThemes();

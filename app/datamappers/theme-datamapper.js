@@ -2,7 +2,7 @@ import { client } from "../database/client-database.js";
 
 // Récupérer tous les thèmes
 export async function findAllThemes() {
-  const result = await client.query(`SELECT * FROM themes ORDER BY id`);
+  const result = await client.query(`SELECT * FROM themes ORDER BY "theme_name" ASC`);
   const themes = result.rows;
   return themes;
 }
