@@ -6,50 +6,55 @@
     flex-wrap: wrap;           
     gap: 1.5rem;                 
     justify-content: center;   
-    align-items: center;
+    align-items: flex-start;
     padding: 1.5rem;
 }
 
 
 .theme_card {
-    position: relative; 
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    position: relative;
     color: var(--theme-color);
     overflow: hidden;
-    border-radius: 0.5rem;
+    border-radius: 2rem;    
     background-color: #fff8ec;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     transition: transform 0.2s;
     min-width: 15rem;
     max-width: 20rem;
+    min-height: 18rem;
     flex: 1 1 15rem;
-    border-radius: 3rem;
-    text-align: center; 
+    text-align: center;
     margin-bottom: 6rem;
-
 }
+
 
 .theme_card:hover {
     transform: translateY(-3px);
 }
 
 .theme_card img {
-    width: 10rem;
-    height: 10rem;
-    border-radius: 1rem;
-    margin-bottom: 1rem;
+    height: 14rem;
+    border-radius: 2rem;  
+    object-fit: cover;
+    object-position: center;
     display: block;
-    margin: 1rem auto;
-    border-top-left-radius: 0.5rem;
-    border-top-right-radius: 0.5rem;
+    padding: 1rem;
+    margin: 0 auto;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
     }
 
 .theme_card h2 {
-    text-align: center;
-    padding: 0.5rem 0;
-    margin: 0 2rem; 
+    width: 100%;
+    margin-top: auto;
+    padding: 0.5rem 1rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    box-sizing: border-box; 
     }
 
 .edit_theme {
@@ -172,10 +177,10 @@ body.edit_mode .edit_button:hover {
     top: -2rem;
     left: 0rem;
     padding: 0.6rem 1.5rem;
-    background-color: var(--accent-color-2);
+    background-color: #feb43365;
     color: var(--font-color-main);
+    border-radius: 1rem;
     border: none;
-    border-radius: 2rem;
     font-size: 0.8rem;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
