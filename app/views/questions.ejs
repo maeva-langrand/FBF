@@ -18,39 +18,37 @@
 </nav>
 
 <div class="question_block">
+
+<button id="toggle_edit_mode" class="edit_mode_button">Mode édition</button>
+
 <% themesAndQuestions.forEach(theme => { %>
- <div id="<%= theme.slug %>" style="--theme-color: <%= theme.color %>;">
-  <h2 class="questions_title <%= theme.slug %>">
-    <span class="theme_name"><%= theme.theme_name %></span>
+  <div id="<%= theme.slug %>" style="--theme-color: <%= theme.color %>;">
+    <h2 class="questions_title">
+      <span class="theme_name"><%= theme.theme_name %></span>
+    </h2>
 
-
-    <a href="/themes/editer/<%= theme.id %>" class="edit-theme" title="Modifier le thème">
-      ✏️
-    </a>
-  </h2>
-
-    <div class="timeline <%= theme.slug %>">
-    <% theme.questions.forEach(question => { %>
+    <div class="timeline">
+      <% theme.questions.forEach(question => { %>
         <div class="timeline_item">
-            <div class="dot"></div>
-            <div class="question-answer-elem">
-
-
-                <a href="/questions/editer/<%= question.id %>" class="edit_button" title="Modifier la question">✏️</a>
-                
+          <div class="dot"></div>
+          <div class="question-answer-elem">
+            <a href="/questions/editer/<%= question.id %>" class="edit_button" title="Modifier la question">✏️</a>
             <div class="qa-text">
-                <div class="question"><%= question.question %></div>
-                <div class="answer"><%= question.response %></div>
-                </div>
-
+              <div class="question"><%= question.question %></div>
+              <div class="answer"><%= question.response %></div>
             </div>
+          </div>
         </div>
-    <% }) %>
+      <% }) %>
     </div>
-</div>
+  </div>
 <% }) %>
 </div>
 
 </main>
+
+
+<script src="/js/edit-mode.js"></script>
+
 
 <%- include("partials/footer.ejs") %>

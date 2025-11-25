@@ -46,7 +46,10 @@
 .theme_card h2 {
     text-align: center;
     padding: 0.5rem 0;
-    margin: 0;
+    margin: 0 2rem; 
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     }
 
 .edit_theme {
@@ -86,7 +89,7 @@
     align-items: center;
     justify-content: space-between;    
     position: relative;
-    padding: 0 2rem;
+    padding: 0 5rem;
     min-height: calc(100vh - var(--header-height));
 }
     
@@ -115,24 +118,83 @@
 /* Questions */
 
 .questions_title {
-  position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .theme_name {
  color: var(--theme-color);
+ max-width: 70%;
+white-space: nowrap;    
+overflow: hidden;       
+text-overflow: ellipsis; 
 }
 
-.edit-theme {
-  margin-left: 0.5rem;
-  opacity: 0.3;
+body.edit_mode .edit_button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 2rem;
+  height: 2rem;
+  padding: .5rem;
+  border-radius: 2rem;
+  font-weight: 600;
+  text-align: center;
+  opacity: 0.6;
   transition: opacity 0.2s ease;
   text-decoration: none;
-  color: var(--accent-color-1);
+  color: var(--theme-color);
 }
 
-.questions_title:hover .edit-theme {
-  opacity: 1;
+.edit_button {
+  display: none;
 }
+
+
+body.edit_mode .edit_button:hover {
+  opacity: 1;
+  transform: scale(1.1);
+  transition: 0.2s;
+  background: currentColor;
+}
+
+
+/* Bouton Mode Édition */
+
+.edit_mode_button {
+    position: relative;    
+    top: -2rem;
+    left: 0rem;
+    padding: 0.6rem 1.5rem;
+    background-color: var(--accent-color-2);
+    color: var(--font-color-main);
+    border: none;
+    border-radius: 2rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Hover */
+.edit_mode_button:hover {
+    background-color: var(--accent-color-1);
+    color: var(--font-color-secondary);
+    transform: scale(1.05);
+    box-shadow: 0 2px 3px rgba(0,0,0,0.2);
+}
+
+/* Style différent si le mode édition est actif */
+body.edit_mode .edit_mode_button {
+    background-color: #c0392b;
+    color: var(--font-color-secondary);
+}
+
 
 
 .question_block {
@@ -140,6 +202,7 @@
   text-align: left;
   padding: 0 1rem;
   margin-bottom: 6rem;
+  max-width: 80%;
 }
 
 .theme_title,
@@ -187,33 +250,26 @@
     flex-direction: column;
 }
 
+.qa-text .question,
+.qa-text .answer {
+    display: inline-block;     
+    max-width: 80vw;           
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;      
+}
+
+
 .question {
     font-weight: 600;
+    white-space: nowrap;
 }
 
 .answer {
     color: #666;
     margin-left: 5px;
     font-size: 0.95rem;
-}
-
-.edit_button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 1.5rem;
-    width: 1.5rem;
-    border-radius: .5rem;
-    opacity: 0.3;
-    transition: opacity 0.2s ease;
-    text-decoration: none;
-    font-size: .8rem;
-    transition: 0.2s;
-}
-
-.edit_button:hover {
-    background: currentColor;
-    opacity: 1;
+    white-space: nowrap;
 }
 
 
@@ -221,7 +277,7 @@
 
 .questions_sidebar {
     position: fixed;
-    right: 10rem;
+    right: 2rem;
     top: 15rem;
     width: 12rem;
     padding: 1rem;
@@ -244,6 +300,9 @@
 
 .questions_sidebar li {
     margin: .5rem 0;
+    white-space: nowrap;      
+    overflow: hidden;         
+    text-overflow: ellipsis;  
 }
 
 .questions_sidebar a {
@@ -251,6 +310,7 @@
     color: var(--font-color-main);
     font-weight: 500;
     transition: color .2s ease;
+
 }
 
 .questions_sidebar a:hover {
