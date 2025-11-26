@@ -8,9 +8,11 @@ import multer from "multer";
 import { themeRouter } from "./app/routers/theme-router.js";
 import { questionRouter } from "./app/routers/question-router.js";
 import { adminRouter } from "./app/routers/admin-router.js";
+import { archiveRouter } from "./app/routers/archive-router.js";
 
 
 const app = express();
+
 const __dirname = import.meta.dirname;
 const port = process.env.PORT || 3000;
 
@@ -21,8 +23,6 @@ app.set("views", path.join(__dirname, "app/views"));
 // les statics
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
 
 app.use(session({
   secret: process.env.SESSION_SECRET,
@@ -52,6 +52,7 @@ app.get("/", (req, res) => {
 app.use(themeRouter);
 app.use(questionRouter);
 app.use(adminRouter);
+app.use(archiveRouter);
 
 
 // middleware de gestion d'erreur 500 global
