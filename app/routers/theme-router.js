@@ -15,4 +15,3 @@ themeRouter.post("/themes/nouveau-theme", adminOnly, upload.single("theme_image"
 
 themeRouter.post("/themes/editer/:id", adminOnly, upload.single("theme_image"), themeEditExisting);
 
-

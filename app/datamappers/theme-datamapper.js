@@ -1,10 +1,13 @@
 import { client } from "../database/client-database.js";
 
-// Récupérer tous les thèmes
-export async function findAllThemes() {
-  const result = await client.query(`SELECT * FROM themes ORDER BY "theme_name" ASC`);
-  const themes = result.rows;
-  return themes;
+// Récupérer tous les thèmes actifs
+export async function findAllThemes(activeOnly = true) {
+  const query = activeOnly
+    ? `SELECT * FROM themes WHERE archived = FALSE ORDER BY "theme_name" ASC`
+    : `SELECT * FROM themes ORDER BY "theme_name" ASC`;
+
+  const result = await client.query(query);
+  return result.rows;
 }
 
 // Récupérer un thème par ID
@@ -27,16 +30,32 @@ return result.rows[0];
 }
 
 // Mettre à jour un thème existant
-export async function updateTheme(id, { theme_name, slug, color, theme_image }) {
-    const result = await client.query(
-        `UPDATE themes
-         SET theme_name = $1,
-             slug = $2,
-             color = $3,
-             theme_image = $4
-         WHERE id = $5
-         RETURNING *`,
-        [theme_name, slug, color, theme_image || null, id]
-    );
+export async function updateTheme(id, { theme_name, slug, color, theme_image, archived }) {
+    const result = await client.query(`
+        UPDATE themes
+        SET 
+            theme_name = COALESCE($1, theme_name),
+            slug = COALESCE($2, slug),
+            color = COALESCE($3, color),
+            theme_image = COALESCE($4, theme_image),
+            archived = COALESCE($5, archived)
+        WHERE id = $6
+        RETURNING *
+    `, [theme_name, slug, color, theme_image, archived, id]);
+
     return result.rows[0] ?? null;
+}
+
+
+// Archiver un thème
+export async function setThemeArchived(id, archived) {
+  await client.query(
+    `UPDATE themes SET archived = $1 WHERE id = $2`,
+    [archived, id]
+  );
+    // Archiver toutes les questions liées
+    await client.query(
+      `UPDATE questions SET archived = $1 WHERE theme = $2`,
+      [archived, id]
+    );
 }

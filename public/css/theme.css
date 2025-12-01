@@ -512,3 +512,35 @@ body.edit_mode .edit_mode_button {
     box-shadow: 0 4px 6px rgba(0,0,0,0.2);
 }
 
+
+/* BOUTON ARCHIVER / DÉSARCHIVER */
+/* Conteneur du bouton d'archive */
+.theme_archive_form {
+    display: flex;
+    justify-content: center;  /* centre horizontalement le bouton */
+    margin-top: 1.5rem;
+}
+
+/* Bouton Archiver / Désarchiver */
+.theme_archive_button {
+    padding: 0.5rem 1.5rem;
+    border: none;
+    border-radius: 2rem;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    background-color: var(--accent-color-1);
+    color: var(--font-color-secondary);
+    transition: all 0.2s ease-in-out;
+    margin-bottom: 2rem;
+    width: 40rem;
+    max-width: 100%;
+
+}
+
+/* Hover */
+.theme_archive_button:hover {
+    background-color: #c0392b;
+    transform: scale(1.05);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}

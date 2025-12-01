@@ -1,4 +1,4 @@
-import { findAllThemes, findThemeById, createTheme, updateTheme } from "../datamappers/theme-datamapper.js";
+import { findAllThemes, findThemeById, createTheme, updateTheme, setThemeArchived } from "../datamappers/theme-datamapper.js";
 
 export async function themesPage (req, res) {
     const themes = await findAllThemes();
@@ -99,3 +99,4 @@ export async function themeCreateNewTheme(req, res) {
         res.status(500).send("Erreur serveur");
     }
 }
+

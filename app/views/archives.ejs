@@ -1,16 +1,59 @@
 <%- include("partials/header.ejs") %>
 
-
 <main class="archives_main">
   <h1 class="archives_title">Archives</h1>
 
-    <% if (admin) { %>
-  <a href="/archives" class="themes_button">Accéder aux archives des thèmes & questions</a>
-   <% } %>
+  <!-- Section 1 : Parties jouées -->
+  <section class="games_archive">
+    <h2>Parties jouées</h2>
+    <% if (games.length === 0) { %>
+      <p>Aucune partie jouée pour le moment.</p>
+    <% } else { %>
+      <ul class="games_list">
+        <% games.forEach(game => { %>
+          <li class="game_item">
+            <strong><%= game.name %></strong> - <%= game.date %> - Participants : <%= game.participants %>
+          </li>
+        <% }) %>
+      </ul>
+    <% } %>
+  </section>
 
- 
-  </div>
+<!-- Section 2 : Thèmes et questions archivés -->
+<% if (admin) { %>
+<section class="themes_archive">
+  <h2>Thèmes et questions archivés</h2>
+
+  <% if (themesAndQuestions.length === 0) { %>
+    <p>Aucun thème ou question archivé pour le moment.</p>
+  <% } else { %>
+    <div class="themes_grid">
+      <% themesAndQuestions.forEach(theme => { %>
+        <article class="theme_card <%= theme.slug %>" style="--theme-color: <%= theme.color %>;">
+          <h3><%= theme.theme_name %></h3>
+
+          <!-- Bouton désarchiver -->
+          <form action="/themes/archive/<%= theme.id %>" method="POST" style="display:inline;">
+            <button type="submit" name="action" value="unarchive" class="unarchive_button">Désarchiver le thème</button>
+          </form>
+
+          <% if (theme.questions.length > 0) { %>
+            <ul class="archived_questions">
+              <% theme.questions.forEach(q => { %>
+                <li>
+                  <strong><%= q.question %></strong> - <em><%= q.response %></em>
+                </li>
+              <% }) %>
+            </ul>
+          <% } %>
+        </article>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
+<% } %>
+
+
 </main>
 
 <%- include("partials/footer.ejs") %>
-

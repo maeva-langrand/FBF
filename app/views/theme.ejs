@@ -64,6 +64,14 @@
 
     </form>
 
+  <% if (mode === "edit") { %>
+<form action="/themes/archive/<%= theme.id %>" method="POST" class="theme_archive_form">
+    <button type="submit" class="theme_archive_button">
+        <%= theme.archived ? "Désarchiver le thème" : "Archiver le thème" %>
+    </button>
+</form>
+<% } %>
+
 </main>
 
 <%- include("partials/footer.ejs") %>
