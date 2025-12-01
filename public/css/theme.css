@@ -222,6 +222,7 @@ body.edit_mode .edit_mode_button {
 
 
 .timeline {
+
     border-left: 4px solid var(--theme-color);
     color: var(--theme-color);
     margin-left: 18px;
@@ -235,6 +236,7 @@ body.edit_mode .edit_mode_button {
 }
 
 .timeline_item .dot {
+    margin-top: 7px;
     width: 12px;
     height: 12px;
     background: currentColor;
