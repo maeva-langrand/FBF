@@ -1,0 +1,41 @@
+<%- include("partials/header-game.ejs") %>
+
+<main>
+  <h1>Nouvelle Partie</h1>
+
+  <form action="/partie-en-cours" method="POST" id="newGameForm">
+    <div>
+      <label>Nom de la partie :</label>
+      <input type="text" name="gameName" required>
+    </div>
+
+   <div>
+  <label>Nombre de joueurs :</label>
+  <input type="number" id="playerCount" name="playerCount" min="1" required>
+</div>
+
+<div id="playersContainer">
+  <!-- Les inputs pour noms des joueurs + thème préféré seront ajoutés ici dynamiquement -->
+</div>
+
+
+    <div>
+      <label>Nombre de questions par thème préféré :</label>
+      <input type="number" name="questionsPerPreferredTheme" min="1" required>
+    </div>
+
+    <div>
+      <label>Nombre total de questions :</label>
+      <input type="number" name="totalQuestions" min="1" required>
+    </div>
+
+    <button type="submit">Commencer la partie</button>
+  </form>
+</main>
+
+
+<div id="themesData" data-themes='<%- JSON.stringify(themes).replace(/'/g, "&apos;") %>'></div>
+<script src="/js/new-game.js"></script>
+
+
+<%- include("partials/footer.ejs") %>

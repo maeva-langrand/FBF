@@ -13,14 +13,12 @@ import {
 
 export const questionRouter = Router();
 
-/* =============================== */
+
 /* Afficher toutes les questions */
-/* =============================== */
 questionRouter.get("/questions", adminOnly, questionsPage);
 
-/* =============================== */
+
 /* Ajouter une nouvelle question */
-/* =============================== */
 questionRouter.get("/questions/nouvelle-question", adminOnly, questionAddNewPage);
 
 questionRouter.post(
@@ -33,9 +31,8 @@ questionRouter.post(
   questionCreate
 );
 
-/* =============================== */
+
 /* Éditer une question */
-/* =============================== */
 questionRouter.get("/questions/editer/:id", adminOnly, questionEditPage);
 
 questionRouter.post(
@@ -48,7 +45,5 @@ questionRouter.post(
   questionEditExisting
 );
 
-/* =============================== */
 /* Supprimer une question */
-/* =============================== */
 questionRouter.post("/questions/supprimer/:id", adminOnly, questionDelete);

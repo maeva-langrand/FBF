@@ -9,6 +9,7 @@ import { themeRouter } from "./app/routers/theme-router.js";
 import { questionRouter } from "./app/routers/question-router.js";
 import { adminRouter } from "./app/routers/admin-router.js";
 import { archiveRouter } from "./app/routers/archive-router.js";
+import { gameRouter } from "./app/routers/game-router.js";
 
 
 const app = express();
@@ -53,6 +54,7 @@ app.use(themeRouter);
 app.use(questionRouter);
 app.use(adminRouter);
 app.use(archiveRouter);
+app.use(gameRouter);
 
 
 // middleware de gestion d'erreur 500 global
