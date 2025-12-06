@@ -21,9 +21,9 @@
     <ul class="nav-list">
         <li class="nav_logo"><a href="/"><img src="/img/FBF-small-logo.png" alt="Fun Between Friends" class="header_small_logo"></a></li>
         <li><a href="/archives">Archives</a></li>
+        <% if (admin) { %><li><a href="/questions">Questions</a></li>  <% } %>
          <li><a href="/themes">Thèmes</a></li>
 
-           <% if (admin) { %><li><a href="/questions">Questions</a></li>  <% } %>
 
   <% if (!admin) { %>
     <li>

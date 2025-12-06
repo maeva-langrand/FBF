@@ -1,6 +1,7 @@
 // question-controller.js
 import { findAllQuestions, findQuestionById, createQuestion, updateQuestion, deleteQuestionById } from "../datamappers/question-datamapper.js";
 import { findAllThemes } from "../datamappers/theme-datamapper.js";
+import { getYouTubeId } from "../helpers/youtube-helper.js";
 
 /* PAGE : toutes les questions */
 export async function questionsPage(req, res) {
@@ -37,6 +38,7 @@ export async function questionEditPage(req, res) {
             question,
             themes,
             mode: "edit",
+            getYouTubeId,
             pagetitle: "| Éditer la question",
             css: "theme.css"
         });
@@ -50,21 +52,28 @@ export async function questionEditPage(req, res) {
 export async function questionAddNewPage(req, res) {
     try {
         const themes = await findAllThemes();
+
         const emptyQuestion = {
             id: null,
             question: "",
             response: "",
             theme: "",
-            question_image: null
+            question_image: null,
+            response_image: null,
+            youtube_url: null,
+            youtube_start: null,
+            youtube_end: null
         };
 
         res.render("question", {
             question: emptyQuestion,
             themes,
             mode: "create",
+            getYouTubeId,
             pagetitle: "| Ajouter une question",
             css: "theme.css"
         });
+
     } catch (err) {
         console.error(err);
         res.status(500).send("Erreur serveur");
@@ -74,21 +83,28 @@ export async function questionAddNewPage(req, res) {
 /* CREER une question */
 export async function questionCreate(req, res) {
     try {
-        const { questionText, response, theme } = req.body;
-        const question_image = req.file ? req.file.filename : null;
+        const { questionText, response, theme, youtubeUrl, youtubeStart, youtubeEnd } = req.body;
+
+        const question_image = req.files?.questionImage?.[0]?.filename || null;
+        const response_image = req.files?.responseImage?.[0]?.filename || null;
 
         if (!questionText || !response || !theme) {
             return res.status(400).send("Veuillez remplir tous les champs obligatoires");
         }
 
         await createQuestion({
-            question: questionText,
-            response,
+            question: questionText.trim(),
+            response: response.trim(),
             theme: parseInt(theme),
-            question_image
+            question_image,
+            response_image,
+            youtube_url: youtubeUrl || null,
+            youtube_start: youtubeStart ? parseInt(youtubeStart) : null,
+            youtube_end: youtubeEnd ? parseInt(youtubeEnd) : null
         });
 
         res.redirect("/questions");
+
     } catch (err) {
         console.error(err);
         res.status(500).send("Erreur serveur");
@@ -103,33 +119,60 @@ export async function questionEditExisting(req, res) {
 
         if (!existingQuestion) return res.status(404).send("Question non trouvée");
 
-        const { questionText, response, theme, deleteImage } = req.body;
-        let question_image;
+        const {
+            questionText,
+            response,
+            theme,
+            youtubeUrl,
+            youtubeStart,
+            youtubeEnd,
+            deleteQuestionImage,
+            deleteResponseImage,
+            deleteAudio
+        } = req.body;
 
-        if (deleteImage === "true") question_image = null;
-        else if (req.file) question_image = req.file.filename;
-        else question_image = existingQuestion.question_image;
+        // IMAGE QUESTION
+        let question_image = existingQuestion.question_image;
+        if (deleteQuestionImage === "true") question_image = null;
+        else if (req.files?.questionImage?.[0]) question_image = req.files.questionImage[0].filename;
+
+        // IMAGE RÉPONSE
+        let response_image = existingQuestion.response_image;
+        if (deleteResponseImage === "true") response_image = null;
+        else if (req.files?.responseImage?.[0]) response_image = req.files.responseImage[0].filename;
+
+        // AUDIO / YOUTUBE
+        let youtube_url = existingQuestion.youtube_url;
+        let youtube_start = existingQuestion.youtube_start;
+        let youtube_end = existingQuestion.youtube_end;
+
+        if (deleteAudio === "true") {
+            youtube_url = null;
+            youtube_start = null;
+            youtube_end = null;
+        } else {
+            youtube_url = youtubeUrl || null;
+            youtube_start = youtubeStart ? parseInt(youtubeStart) : null;
+            youtube_end = youtubeEnd ? parseInt(youtubeEnd) : null;
+        }
 
         if (!questionText || !response || !theme) {
             return res.status(400).send("Veuillez remplir tous les champs obligatoires");
         }
 
-        const questionClean = questionText?.trim();
-        const responseClean = response?.trim();
-        const themeId = parseInt(theme);
-
-        if (!questionClean || !responseClean || !themeId) {
-            return res.status(400).send("Veuillez remplir tous les champs obligatoires");
-        }
-
         await updateQuestion(questionId, {
-            question: questionClean,
-            response: responseClean,
-            theme: themeId,
-            question_image
+            question: questionText.trim(),
+            response: response.trim(),
+            theme: parseInt(theme),
+            question_image,
+            response_image,
+            youtube_url,
+            youtube_start,
+            youtube_end
         });
 
         res.redirect("/questions");
+
     } catch (err) {
         console.error(err);
         res.status(500).send("Erreur serveur");

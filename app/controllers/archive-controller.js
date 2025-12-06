@@ -52,6 +52,6 @@ export async function themeArchiveToggle(req, res) {
 await updateTheme(themeId, { archived: newArchivedStatus });
     await archiveQuestionsByTheme(themeId, newArchivedStatus); // fonction à créer dans question-datamapper.js
 
-    res.redirect("/themes/editer/" + themeId);
+    res.redirect("/");
 }
 

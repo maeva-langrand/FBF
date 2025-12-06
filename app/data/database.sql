@@ -105,3 +105,48 @@ INSERT INTO questions (theme, question, response, question_image) VALUES
 (5, 'Ut enim ad minim veniam, quis nostrud exercitation?', 'Ullamco laboris nisi ut aliquip.', ''),
 (5, 'Duis aute irure dolor in reprehenderit in voluptate velit?', 'Esse cillum dolore eu fugiat nulla pariatur.', ''),
 (5, 'Excepteur sint occaecat cupidatat non proident?', 'Sunt in culpa qui officia deserunt mollit anim id est laborum.', '');
+
+
+
+CREATE TABLE parties (
+    id SERIAL PRIMARY KEY,
+    nom_partie VARCHAR(255) NOT NULL,
+    date_creation TIMESTAMP DEFAULT NOW(),
+    duree INTERVAL,
+    nb_participants INT NOT NULL,
+    nb_questions_total INT NOT NULL,
+    nb_questions_pref INT NOT NULL,
+    etat VARCHAR(50) DEFAULT 'préparée' -- 'préparée', 'en_cours', 'terminee'
+);
+
+
+CREATE TABLE participants (
+    id SERIAL PRIMARY KEY,
+    partie_id INT NOT NULL REFERENCES parties(id) ON DELETE CASCADE,
+    nom VARCHAR(255) NOT NULL,
+    theme_pref_id INT NOT NULL REFERENCES themes(id),
+    score INT DEFAULT 0,
+    ordre INT DEFAULT 1
+);
+
+
+CREATE TABLE cartes (
+    id SERIAL PRIMARY KEY,
+    partie_id INT NOT NULL REFERENCES parties(id) ON DELETE CASCADE,
+    numero INT NOT NULL,
+    theme_id INT REFERENCES themes(id), -- null si question neutre
+    question_id INT REFERENCES questions(id),
+    participant_id_pref INT REFERENCES participants(id), -- null si question neutre
+    couleur_affichage VARCHAR(20), -- couleur du thème ou gris
+    etat VARCHAR(20) DEFAULT 'grise', -- 'grise', 'visible', 'jouee'
+    points INT -- points obtenus pour cette carte
+);
+
+
+CREATE TABLE archives_parties (
+    id SERIAL PRIMARY KEY,
+    nom_partie VARCHAR(255),
+    date_creation TIMESTAMP,
+    duree INTERVAL,
+    classement JSONB -- [{participant: "Alice", score: 12, theme_pref: "Histoire"}, ...]
+);

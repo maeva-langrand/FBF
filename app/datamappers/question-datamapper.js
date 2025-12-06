@@ -35,26 +35,45 @@ export async function findQuestionById(id) {
 }
 
 /* Créer une nouvelle question */
-export async function createQuestion({ question, response, theme, question_image }) {
+export async function createQuestion({ question, response, theme, question_image, response_image, youtube_url, youtube_start, youtube_end }) {
     const result = await client.query(`
-        INSERT INTO questions (question, response, theme, question_image)
-        VALUES ($1, $2, $3, $4)
+        INSERT INTO questions (question, response, theme, question_image, response_image, youtube_url, youtube_start, youtube_end)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
         RETURNING *
-    `, [question, response, theme, question_image || null]);
+    `, [question, response, theme, question_image || null, response_image || null, youtube_url || null, youtube_start || null, youtube_end || null]);
     return result.rows[0];
 }
 
 /* Mettre à jour une question existante */
-export async function updateQuestion(id, { question, response, theme, question_image }) {
+export async function updateQuestion(id, {   question,
+  response,
+  theme,
+  question_image,
+  response_image,
+  youtube_url,
+  youtube_start,
+  youtube_end }) {
     const result = await client.query(`
-        UPDATE questions
-        SET question = $1,
-            response = $2,
-            theme = $3,
-            question_image = $4
-        WHERE id = $5
-        RETURNING *
-    `, [question, response, theme, question_image || null, id]);
+    UPDATE questions
+    SET question = $1,
+        response = $2,
+        theme = $3,
+        question_image = $4,
+        response_image = $5,
+        youtube_url = $6,
+        youtube_start = $7,
+        youtube_end = $8
+    WHERE id = $9
+    RETURNING *
+    `, [question,
+    response,
+    theme,
+    question_image || null,
+    response_image || null,
+    youtube_url || null,
+    youtube_start || null,
+    youtube_end || null,
+    id]);
     return result.rows[0] ?? null;
 }
 
