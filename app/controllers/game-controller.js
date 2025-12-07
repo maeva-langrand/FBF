@@ -1,3 +1,4 @@
+import { gameDatamapper } from "../datamappers/game-datamapper.js";
 import { findAllThemes } from "../datamappers/theme-datamapper.js";
 import { findAllQuestions } from "../datamappers/question-datamapper.js";
 
@@ -82,4 +83,34 @@ function generateGameCards(players, allQuestions, totalQuestions, questionsPerPr
   // 3️⃣ Mélanger les cartes finales et numéroter
   cards = cards.sort(() => Math.random() - 0.5);
   return cards.map((q, index) => ({ ...q, number: index + 1, played: false }));
+}
+
+
+
+export async function saveFinishedGame(game) {
+  try {
+    // 1️⃣ Create the game
+    const savedGame = await gameDatamapper.createGame(game.name);
+    const gameId = savedGame.id;
+
+    // 2️⃣ Add players
+    for (const player of game.players) {
+      await gameDatamapper.addPlayer(gameId, {
+        name: player.name,
+        preferred_theme: player.preferred_theme,
+        score: player.score
+      });
+    }
+
+    // 3️⃣ Add played cards (optional)
+    for (const card of game.cards) {
+      await gameDatamapper.addPlayedCard(gameId, card, card.answeredBy || null);
+    }
+
+    console.log("Partie enregistrée avec succès !");
+    return gameId;
+  } catch (err) {
+    console.error("Error saving game:", err);
+    throw err;
+  }
 }

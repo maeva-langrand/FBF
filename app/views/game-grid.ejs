@@ -4,6 +4,7 @@
   <aside class="sidebar">
     <h2 class="sidebar_game_name"><%= game.name %></h2>
     <p class="sidebar_current_play">Joueur actuel : <span id="current-player"><%= game.players[game.currentPlayerIndex].name %></span></p>
+    
     <div class="legend">
       <h3 class="sidebar_title_legend">Légende des thèmes :</h3>
       <ul>
@@ -12,12 +13,23 @@
             <span class="legend-color-box" style="background-color:<%= theme.color %>;"></span>
             <%= theme.theme_name %>
           </li>
-          <% }) %>
-        </ul>
-        <div id="timer-container">
+        <% }) %>
+      </ul>
+      <div id="timer-container">
         <span id="timer">30</span>
-        </div>
+      </div>
     </div>
+
+    <!-- Nouveau : classement -->
+    <div class="scoreboard">
+      <h3>Classement :</h3>
+      <ul id="score-list" class="score-list">
+        <% game.players.forEach(p => { %>
+          <li><span class="emoji"></span><%= p.name %> - <%= p.score || 0 %> pts</li>
+        <% }) %>
+      </ul>
+    </div>
+
   </aside>
 
   <main class="grid-wrapper">
