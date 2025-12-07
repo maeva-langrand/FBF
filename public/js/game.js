@@ -1,5 +1,4 @@
-
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   const gameDataEl = document.getElementById("gameData");
   const game = JSON.parse(gameDataEl.dataset.game);
 
@@ -87,7 +86,7 @@ function openCard(card, cardEl) {
     const playBtn = content.querySelector(".play-audio-btn");
     playBtn.addEventListener("click", (e) => {
       e.stopPropagation();
-      playBtn.remove(); // bouton disparaît
+     // playBtn.remove(); // bouton disparaît
       createYoutubePlayer(audioContainer, card);
     });
   }
@@ -223,35 +222,64 @@ function updateScores() {
 }
 
   // --- FIN DE PARTIE ---
-function endGame() {
+async function endGame() {
+
+  // --------- SAVE ARCHIVE ---------
+ async function saveArchive() {
+  try {
+    await fetch("/archives", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: `Partie du ${new Date().toLocaleDateString()}`,
+        players: game.players.map(p => ({
+          name: p.name,
+          theme: p.theme,
+          score: p.score
+        }))
+      })
+    });
+  } catch (err) {
+    console.error("Erreur en sauvegardant la partie :", err);
+  }
+}
+
+  await saveArchive();
+
+  // --------- OVERLAY FIN ---------
   const overlayEnd = document.createElement("div");
-  overlayEnd.classList.add("final-overlay"); // uniquement final-overlay
-  overlayEnd.style.display = "flex"; // affiche l'overlay
+  overlayEnd.classList.add("final-overlay");
+  overlayEnd.style.display = "flex";
+
   overlayEnd.innerHTML = (() => {
     const topScore = Math.max(...game.players.map(p => p.score));
     const winners = game.players.filter(p => p.score === topScore);
+
     return `
       <div class="overlay-content">
-        <h2>Félicitations ${winners.map(p=>p.name).join(", ")} !</h2>
+        <h2>Félicitations ${winners.map(p=>p.name).join(", ")}</h2>
         <p>Score : ${topScore} pts</p>
         <ol>
           ${game.players
             .sort((a,b)=>b.score-a.score)
             .map((p,i)=>{
-              let emoji = i===0?"🏆 ":i===1?"🥈 ":i===2?"🥉 ":"";
-              return `<li><span class="emoji">${emoji}</span>${p.name} - ${p.score} pts</li>`;
+              const emoji = i===0?"🏆 ":i===1?"🥈 ":i===2?"🥉 ":"";
+              return `<li>${emoji}${p.name} - ${p.score} pts</li>`;
             }).join("")}
         </ol>
-        <button id="replayBtn">Rejouer</button>
+        <button id="replayBtn">Retour à l'accueil</button>
       </div>
     `;
   })();
+
   document.querySelector(".grid-wrapper").appendChild(overlayEnd);
 
-  
-  // Bouton rejouer
-  document.getElementById("replayBtn").addEventListener("click", () => location.reload());
+document.getElementById("replayBtn").onclick = () => location.href = "/";
 }
+
+
+
   // --- Initialisation du classement ---
   updateScores();
+
 });

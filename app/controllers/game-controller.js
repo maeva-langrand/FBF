@@ -1,6 +1,6 @@
-import { gameDatamapper } from "../datamappers/game-datamapper.js";
 import { findAllThemes } from "../datamappers/theme-datamapper.js";
 import { findAllQuestions } from "../datamappers/question-datamapper.js";
+import { insertGame, insertGamePlayers  } from "../datamappers/game-datamapper.js";
 
 // Page formulaire pour configurer la partie
 export async function newGamePage(req, res) {
@@ -146,3 +146,21 @@ function generateGameCards(players, allQuestions, totalQuestions, questionsPerPr
 }
 
 
+
+export async function saveGameArchive(req, res) {
+    console.log("REQ BODY:", req.body);
+  try {
+    const { name, players } = req.body;
+
+    // 1️⃣ Créer la partie
+    const game = await insertGame(name);
+
+    // 2️⃣ Ajouter les joueurs
+    await insertGamePlayers(game.id, players);
+
+    res.status(201).json({ success: true });
+  } catch (err) {
+    console.error("SAVE GAME ERROR:", err);
+    res.status(500).json({ error: "Erreur sauvegarde partie" });
+  }
+}

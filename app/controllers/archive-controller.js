@@ -1,17 +1,15 @@
 import { findThemeById, updateTheme, findAllThemes } from "../datamappers/theme-datamapper.js";
 import { archiveQuestionsByTheme, findAllQuestions } from "../datamappers/question-datamapper.js";
+import { findAllArchivedGames } from "../datamappers/game-datamapper.js";
 
 // Fonction qui renvoie directement la vue avec toutes les archives
 export async function archivesPage(req, res) {
   try {
-    // Section 1 : Parties jouées (placeholder pour l'instant)
-    const games = [
-      { name: "Partie du 1er décembre", date: "2025-12-01", participants: "Alice, Bob" },
-      { name: "Partie du 30 novembre", date: "2025-11-30", participants: "Charlie, Eve" }
-    ];
+    // --- Parties jouées ---
+    const games = await findAllArchivedGames();
 
-    // Section 2 : Thèmes et questions archivés
-    const themes = await findAllThemes(false); // inclure les archivés
+    // --- Thèmes et questions archivés ---
+    const themes = await findAllThemes(false);
     const archivedThemes = themes.filter(t => t.archived);
 
     const questions = await findAllQuestions(false);
@@ -22,7 +20,6 @@ export async function archivesPage(req, res) {
       questions: archivedQuestions.filter(q => q.theme === theme.id)
     }));
 
-    // Rendu de la vue
     res.render("archives", {
       pagetitle: "| Archives",
       games,

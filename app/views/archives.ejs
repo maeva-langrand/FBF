@@ -9,13 +9,15 @@
     <% if (games.length === 0) { %>
       <p>Aucune partie jouée pour le moment.</p>
     <% } else { %>
-      <ul class="games_list">
-        <% games.forEach(game => { %>
-          <li class="game_item">
-            <strong><%= game.name %></strong> - <%= game.date %> - Participants : <%= game.participants %>
-          </li>
-        <% }) %>
-      </ul>
+<ul class="games_list">
+<% games.forEach(game => { %>
+  <li class="game_item">
+    <strong><%= game.name %></strong><br>
+    <small><%= new Date(game.date).toLocaleDateString() %></small><br>
+    <span><%= game.participants %></span>
+  </li>
+<% }) %>
+</ul>
     <% } %>
   </section>
 

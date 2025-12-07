@@ -43,6 +43,9 @@ app.use((req, res, next) => {
 // middleware pour parser les body
 app.use(express.urlencoded({ extended: true }));
 
+// Middleware pour parser JSON
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
   res.render("index.ejs", {

@@ -1,5 +1,7 @@
 
 .main_new_game {
+  display: flex;
+  flex-direction: column;
   max-width: 900px;
   margin: 2rem auto;
   padding: 2.5rem;
@@ -14,7 +16,6 @@
   text-align: center;
   font-size: 2.4rem;
   margin-bottom: 2rem;
-  color: #222;
 }
 
 
@@ -32,7 +33,6 @@
 
 .new_game_form label {
   font-weight: 600;
-  color: #333;
 }
 
 /* Inputs & selects */
@@ -89,17 +89,18 @@
 
 
 .new_game_form button {
-  margin: 2.2rem auto 0;
-  padding: .75rem 2.6rem;
-  background: linear-gradient(135deg, #ffcc00, #ffdb4d);
-  border: none;
-  border-radius: 2rem;
-  color: #333;
-  font-size: 1.15rem;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 5px 10px rgba(0,0,0,0.12);
-  transition: all .2s ease;
+    margin: 1rem auto;
+    width: 40%;
+    text-align: center;
+    color: var(--font-color-secondary);
+    font-size: 1.3rem;
+    text-transform: capitalize;
+    text-decoration: none;
+    border: none;
+    font-weight: 800;
+    padding: 1rem 2rem;
+    border-radius: 2rem;
+    background-color: var(--accent-color-1);
 }
 
 .new_game_form button:hover {
