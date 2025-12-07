@@ -1,9 +1,9 @@
 <%- include("partials/header-game.ejs") %>
 
-<main>
-  <h1>Nouvelle Partie</h1>
+<main class="main_new_game">
+  <h1 class="new_game_title">Nouvelle Partie</h1>
 
-  <form action="/partie-en-cours" method="POST" id="newGameForm">
+  <form class="new_game_form" action="/partie-en-cours" method="POST" id="newGameForm">
     <div>
       <label>Nom de la partie :</label>
       <input type="text" name="gameName" required>

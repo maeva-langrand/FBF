@@ -5,112 +5,144 @@ import { findAllQuestions } from "../datamappers/question-datamapper.js";
 // Page formulaire pour configurer la partie
 export async function newGamePage(req, res) {
   const themes = await findAllThemes();
-  res.render("new-game", { themes });
+  res.render("new-game", { themes, css:"new-game.css" });
 }
 
-// Génération de la partie
+// Démarrer la partie
 export async function startGame(req, res) {
-  const { gameName, players, totalQuestions, questionsPerPreferred } = req.body;
 
-  // Récupérer toutes les questions et tous les thèmes
+  const {
+    gameName,
+    players,
+    totalQuestions,
+    questionsPerPreferredTheme
+  } = req.body;
+
+  const questionsPerPreferred = Number(questionsPerPreferredTheme);
+  const playersArray = Object.values(players);
+
   const allQuestions = await findAllQuestions();
   const themes = await findAllThemes();
 
-  // Générer les cartes selon les préférences des joueurs
-  const cards = generateGameCards(players, allQuestions, parseInt(totalQuestions), parseInt(questionsPerPreferred));
+  const cards = generateGameCards(
+    playersArray,
+    allQuestions,
+    Number(totalQuestions),
+    questionsPerPreferred
+  );
 
-  // Ajouter la couleur de thème à chaque carte pour l'affichage
   const cardsWithThemeColor = cards.map(card => {
     const theme = themes.find(t => t.id === card.theme);
     return { ...card, theme_color: theme?.color || "#ccc" };
   });
 
-  const game = {
-    name: gameName,
+  res.render("game-grid", {
+    game: {
+      name: gameName,
+      themes,
+      players: playersArray,
+      cards: cardsWithThemeColor,
+      currentPlayerIndex: 0
+    },
     themes,
-    players,
-    cards: cardsWithThemeColor,
-    currentPlayerIndex: 0
-  };
-
-  res.render("game-grid", { game, themes, css: "game.css" });
+    css: "game.css"
+  });
 }
 
-// Utilitaire pour créer la grille de manière équilibrée
+
+// Génération stricte des cartes
 function generateGameCards(players, allQuestions, totalQuestions, questionsPerPreferred) {
-  let cards = [];
 
-  // 1️⃣ Sélection des questions préférées pour chaque joueur
+  // -------------------
+  // VALIDATIONS
+  // -------------------
+
+  // Thèmes préférés uniques
+  const preferredThemeIds = players.map(p => Number(p.theme));
+
+  if (new Set(preferredThemeIds).size !== preferredThemeIds.length) {
+    throw new Error("Deux joueurs ne peuvent pas avoir le même thème préféré.");
+  }
+
+  const requiredPreferredTotal = players.length * questionsPerPreferred;
+
+  if (requiredPreferredTotal > totalQuestions) {
+    throw new Error("Plus de questions préférées demandées que le total de questions.");
+  }
+
+  // -------------------
+  // 1️⃣ QUESTIONS PRÉFÉRÉES
+  // -------------------
+
+  const cards = [];
+  const usedIds = new Set();
+
   players.forEach(player => {
-    const preferredQuestions = allQuestions
-      .filter(q => q.theme === parseInt(player.theme))
-      .sort(() => Math.random() - 0.5) // mélange
-      .slice(0, questionsPerPreferred); // limite par joueur
-    cards.push(...preferredQuestions);
-  });
 
-  // 2️⃣ Compléter avec les questions restantes pour atteindre le total
-  const usedIds = new Set(cards.map(q => q.id));
+    const themeId = Number(player.theme);
 
-  // Regrouper les questions restantes par thème
-  const remainingByTheme = {};
-  allQuestions.forEach(q => {
-    if (!usedIds.has(q.id)) {
-      if (!remainingByTheme[q.theme]) remainingByTheme[q.theme] = [];
-      remainingByTheme[q.theme].push(q);
+    const available = allQuestions.filter(q =>
+      Number(q.theme) === themeId &&
+      !usedIds.has(q.id)
+    );
+
+    if (available.length < questionsPerPreferred) {
+      throw new Error(
+        `Pas assez de questions pour le thème préféré du joueur "${player.name}". ` +
+        `Demandé: ${questionsPerPreferred}, disponible: ${available.length}`
+      );
     }
-  });
 
-  const remainingCount = totalQuestions - cards.length;
-  const remainingThemes = Object.keys(remainingByTheme).map(Number);
+    const selected = available
+      .sort(() => Math.random() - 0.5)
+      .slice(0, questionsPerPreferred);
 
-  let i = 0;
-  while (cards.length < totalQuestions && remainingThemes.length > 0) {
-    const theme = remainingThemes[i % remainingThemes.length];
-    const questions = remainingByTheme[theme];
-    if (questions && questions.length > 0) {
-      const q = questions.pop(); // prendre une question
-      cards.push(q);
+    selected.forEach(q => {
+      cards.push({ ...q, answeredBy: null });
       usedIds.add(q.id);
-    } else {
-      // retirer le thème s'il n'y a plus de questions
-      remainingThemes.splice(i % remainingThemes.length, 1);
-      i--; // rester sur le même index pour la prochaine boucle
-    }
-    i++;
+    });
+  });
+
+  // -------------------
+  // 2️⃣ COMPLÉTION AVEC
+  //    UNIQUEMENT LES
+  //    THÈMES NON-PRÉFÉRÉS
+  // -------------------
+
+  const remainingNeeded = totalQuestions - cards.length;
+
+  const remainingPool = allQuestions.filter(q =>
+    !usedIds.has(q.id) &&
+    !preferredThemeIds.includes(Number(q.theme)) // ⚡ STRICTEMENT NON-PRÉFÉRÉ
+  );
+
+  if (remainingPool.length < remainingNeeded) {
+    throw new Error(
+      `Pas assez de questions provenant des thèmes non-préférés.` +
+      ` Demandé: ${remainingNeeded}, disponibles: ${remainingPool.length}`
+    );
   }
 
-  // 3️⃣ Mélanger les cartes finales et numéroter
-  cards = cards.sort(() => Math.random() - 0.5);
-  return cards.map((q, index) => ({ ...q, number: index + 1, played: false }));
+  const supplement = remainingPool
+    .sort(() => Math.random() - 0.5)
+    .slice(0, remainingNeeded);
+
+  supplement.forEach(q => {
+    cards.push({ ...q, answeredBy: null });
+    usedIds.add(q.id);
+  });
+
+  // -------------------
+  // 3️⃣ MÉLANGE FINAL
+  // -------------------
+
+  return cards
+    .sort(() => Math.random() - 0.5)
+    .map((q, index) => ({
+      ...q,
+      number: index + 1,
+      played: false
+    }));
 }
 
 
-
-export async function saveFinishedGame(game) {
-  try {
-    // 1️⃣ Create the game
-    const savedGame = await gameDatamapper.createGame(game.name);
-    const gameId = savedGame.id;
-
-    // 2️⃣ Add players
-    for (const player of game.players) {
-      await gameDatamapper.addPlayer(gameId, {
-        name: player.name,
-        preferred_theme: player.preferred_theme,
-        score: player.score
-      });
-    }
-
-    // 3️⃣ Add played cards (optional)
-    for (const card of game.cards) {
-      await gameDatamapper.addPlayedCard(gameId, card, card.answeredBy || null);
-    }
-
-    console.log("Partie enregistrée avec succès !");
-    return gameId;
-  } catch (err) {
-    console.error("Error saving game:", err);
-    throw err;
-  }
-}
