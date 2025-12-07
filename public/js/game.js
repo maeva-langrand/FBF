@@ -67,49 +67,80 @@ function openCard(card, cardEl) {
   activeCardEl = cardEl;
   overlay.style.display = "flex";
 
-  // Garder le style existant
+  // Overlay avec structure fixe + container pour l’audio
   overlay.innerHTML = `
     <div class="overlay-content" style="background:${card.theme_color}">
+      <h2 class="theme-text">${card.theme_name}</h2>
       <p class="question-text">${card.question}</p>
-      ${card.question_image ? `<img src="/uploads/${card.question_image}" class="question-img">` : ""}
-      ${card.youtube_url ? `<button class="play-audio-btn">▶️ Écouter</button>` : ""}
+      ${card.question_image ? `<img src="/uploads/${card.question_image}" style="max-width:90%; max-height:50%;">` : ""}
+      <div class="audio-container"></div>
+      ${card.youtube_url ? `<button class="play-audio-btn">▶️ Lancer l'extrait</button>` : ""}
       <button id="showAnswerBtn">Afficher la réponse</button>
     </div>
   `;
 
   const content = overlay.querySelector(".overlay-content");
+  const audioContainer = content.querySelector(".audio-container");
 
-  // ⚡ Bouton lecture audio
+  // --- PLAY AUDIO ---
   if (card.youtube_url) {
-    content.querySelector(".play-audio-btn").addEventListener("click", e => {
+    const playBtn = content.querySelector(".play-audio-btn");
+    playBtn.addEventListener("click", (e) => {
       e.stopPropagation();
-      e.currentTarget.remove();  // bouton disparaît
-      playAudioOnly(content, card);
+      playBtn.remove(); // bouton disparaît
+      createYoutubePlayer(audioContainer, card);
     });
   }
 
-  // ⚡ Afficher la réponse
-  content.querySelector("#showAnswerBtn").addEventListener("click", () => {
-    renderAnswerContent(card, content);
+  // --- SHOW ANSWER ---
+  document.getElementById("showAnswerBtn").addEventListener("click", () => {
+    content.innerHTML = `
+      <h2 class="theme-text">${card.theme_name}</h2>
+      <p class="answer-text">${card.response}</p>
+      ${card.response_image ? `<img src="/uploads/${card.response_image}" style="max-width:90%; max-height:50%;">` : ""}
+      <div class="audio-container"></div>
+      ${card.youtube_url ? `<button class="play-audio-btn">▶️ Lancer l'extrait</button>` : ""}
+      <div class="thumb-buttons">
+        <button id="thumbUpBtn">👍</button>
+        <button id="thumbDownBtn">👎</button>
+      </div>
+    `;
+
+    const answerAudioContainer = content.querySelector(".audio-container");
+
+    if (card.youtube_url) {
+      const answerPlayBtn = content.querySelector(".play-audio-btn");
+      answerPlayBtn.addEventListener("click", () => {
+        answerPlayBtn.remove();
+        createYoutubePlayer(answerAudioContainer, card);
+      });
+    }
+
+    document.getElementById("thumbUpBtn").addEventListener("click", () => finishCard(cardEl, card, true));
+    document.getElementById("thumbDownBtn").addEventListener("click", () => finishCard(cardEl, card, false));
   });
 }
 
-// Lecture audio simple (YouTube invisible)
-function playAudioOnly(container, card) {
-  const videoId = getYouTubeId(card.youtube_url);
-  if (!videoId) return;
+// --- Fonction pour créer le player audio uniquement ---
+function createYoutubePlayer(container, card) {
+  const videoId = card.youtube_url.includes("v=")
+    ? card.youtube_url.split("v=")[1].split("&")[0]
+    : card.youtube_url;
 
   const start = card.youtube_start || 0;
   const end = card.youtube_end || "";
 
   const iframe = document.createElement("iframe");
-  iframe.width = "0";  // invisible
-  iframe.height = "0"; // invisible
-  iframe.src = `https://www.youtube.com/embed/${videoId}?start=${start}&end=${end}&autoplay=1&controls=0&modestbranding=1&playsinline=1`;
-  iframe.frameBorder = "0";
+  iframe.width = "0";   // on ne veut pas afficher la vidéo
+  iframe.height = "0";  // juste le son
+  iframe.src = `https://www.youtube.com/embed/${videoId}?start=${start}&end=${end}&autoplay=1&controls=0&mute=0`;
   iframe.allow = "autoplay; encrypted-media";
+  iframe.allowFullscreen = true;
+
   container.appendChild(iframe);
 }
+
+
 
 // Fonction helper YouTube
 function getYouTubeId(url) {

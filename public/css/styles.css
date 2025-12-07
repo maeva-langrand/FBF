@@ -2,7 +2,7 @@
     height: 100%;
     margin: 0;
     background-color: var(--main-color);
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: 'Spiegel', 'Beaufort For LoL', Verdana, Geneva, Tahoma, sans-serif;
     box-sizing: border-box;
     scroll-behavior: smooth;
      
@@ -30,6 +30,10 @@
 
 body {
     color: var(--font-color-main);
+}
+
+h1, h2, h3 {
+    font-family: Beaufort For LoL;
 }
 
 .navbar {

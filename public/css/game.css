@@ -111,8 +111,8 @@ font-weight: 800;
   width: 20px;
   height: 20px;
   display:inline-block;
-  margin-right:5px;
-  border-radius:3px;
+  margin-right:.5rem;
+  border-radius:.2rem;
 }
 
 /* Boutons */
@@ -317,4 +317,57 @@ iframe {
     opacity: 1;
     transform: scale(1);
   }
+}
+
+
+/* Style général des boutons */
+
+.thumb-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+
+.thumb-buttons button {
+  font-size: 2.5rem;         
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;       
+  border: none;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.452); 
+}
+
+
+
+/* Survol */
+.thumb-buttons button:hover {
+  transform: scale(1.2);
+  box-shadow: 0 6px 10px rgba(0,0,0,0.25);
+  background-color: #ffeaa7;
+}
+
+.thumb-buttons #thumbUpBtn {
+  background-color: #d4edda;  /* vert clair */
+}
+
+.thumb-buttons #thumbDownBtn {
+  background-color: #f8d7da;  /* rouge clair */
+}
+
+/* Survol spécifique */
+.thumb-buttons #thumbUpBtn:hover {
+  background-color: #c3e6cb;
+}
+
+.thumb-buttons #thumbDownBtn:hover {
+  background-color: #f5c6cb;
 }

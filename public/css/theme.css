@@ -354,6 +354,7 @@ body.edit_mode .edit_mode_button {
 .edit_question_form select {
     padding: .5rem;
     border: 1px solid #ccc;
+    margin-top: .5rem;
     border-radius: .5rem;
     resize: vertical; 
     background-color: #fff8ec;
