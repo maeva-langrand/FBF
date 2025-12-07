@@ -1,31 +1,31 @@
 <%- include("partials/header-game.ejs") %>
 
 <div class="game-container">
-  <div class="legend">
-    <h2>Légende</h2>
-    <ul>
-      <% themes.forEach(theme => { %>
-        <li>
-          <span class="theme-color-box" style="background-color: <%= theme.color %>;"></span>
-          <%= theme.theme_name %>
-        </li>
-    </ul>
-    <% }) %>
-
-    <div id="timer-container">
-      Temps restant : <span id="timer">30</span>s
+  <aside class="sidebar">
+    <h2>Partie : <%= game.name %></h2>
+    <p>Joueur actuel : <span id="current-player"><%= game.players[game.currentPlayerIndex].name %></span></p>
+    <div class="legend">
+      <h3>Légende des thèmes :</h3>
+      <ul>
+        <% game.themes.forEach(theme => { %>
+          <li>
+            <span class="legend-color-box" style="background-color:<%= theme.color %>;"></span>
+            <%= theme.theme_name %>
+          </li>
+          <% }) %>
+        </ul>
+        <div id="timer-container">
+        <span id="timer">30</span>
+        </div>
     </div>
-  </div>
+  </aside>
 
-  <div class="grid-container">
-    <% game.cards.forEach((card, index) => { %>
-      <div class="card" data-question-id="<%= card.id %>" data-number="<%= card.number %>" style="background-color:<%= card.theme_color %>;">
-        <div class="card-number"><%= card.number %></div>
-      </div>
-    <% }) %>
-  </div>
+  <main class="grid-wrapper">
+    <div class="grid-container"></div>
+  </main>
 </div>
 
+<!-- Injection des données -->
 <div id="gameData" data-game='<%- JSON.stringify(game).replace(/'/g, "&apos;") %>'></div>
 <script src="/js/game.js"></script>
 
