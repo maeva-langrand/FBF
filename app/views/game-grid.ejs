@@ -2,10 +2,10 @@
 
 <div class="game-container">
   <aside class="sidebar">
-    <h2>Partie : <%= game.name %></h2>
-    <p>Joueur actuel : <span id="current-player"><%= game.players[game.currentPlayerIndex].name %></span></p>
+    <h2 class="sidebar_game_name"><%= game.name %></h2>
+    <p class="sidebar_current_play">Joueur actuel : <span id="current-player"><%= game.players[game.currentPlayerIndex].name %></span></p>
     <div class="legend">
-      <h3>Légende des thèmes :</h3>
+      <h3 class="sidebar_title_legend">Légende des thèmes :</h3>
       <ul>
         <% game.themes.forEach(theme => { %>
           <li>
