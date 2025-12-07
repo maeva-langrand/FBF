@@ -225,24 +225,27 @@ function updateScores() {
 async function endGame() {
 
   // --------- SAVE ARCHIVE ---------
- async function saveArchive() {
+async function saveArchive() {
+  const gameNameInput = document.getElementById("gameNameInput");
+  const name = gameNameInput?.value || `Partie du ${new Date().toLocaleDateString()}`;
+
+  const playersData = game.players.map(p => ({
+    name: p.name,
+    score: p.score,
+    theme: p.theme
+  }));
+
   try {
     await fetch("/archives", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: `Partie du ${new Date().toLocaleDateString()}`,
-        players: game.players.map(p => ({
-          name: p.name,
-          theme: p.theme,
-          score: p.score
-        }))
-      })
+      body: JSON.stringify({ name, players: playersData })
     });
   } catch (err) {
     console.error("Erreur en sauvegardant la partie :", err);
   }
 }
+
 
   await saveArchive();
 

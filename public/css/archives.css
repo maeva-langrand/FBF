@@ -79,6 +79,14 @@
   border-radius: 4px;
 }
 
+.archive_classement_p {
+  padding: .3rem 0 .1rem 0;
+}
+
+.archive_classement_list {
+  margin: 0;
+  padding: 0 1rem;
+}
 /* ===== Boutons ===== */
 .unarchive_button {
   display: inline-block;

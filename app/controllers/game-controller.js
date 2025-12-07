@@ -146,16 +146,12 @@ function generateGameCards(players, allQuestions, totalQuestions, questionsPerPr
 }
 
 
-
 export async function saveGameArchive(req, res) {
-    console.log("REQ BODY:", req.body);
   try {
     const { name, players } = req.body;
+    if (!name) return res.status(400).json({ error: "Nom de la partie requis" });
 
-    // 1️⃣ Créer la partie
     const game = await insertGame(name);
-
-    // 2️⃣ Ajouter les joueurs
     await insertGamePlayers(game.id, players);
 
     res.status(201).json({ success: true });

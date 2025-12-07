@@ -30,9 +30,11 @@ export const gameDatamapper = {
 
 export async function insertGameArchive(entry) {
   const { name, players, scores } = entry;
+  const date_played = new Date(); // on crée la date ici
+
   await client.query(
-    `INSERT INTO game_archive (name, players, scores)
-     VALUES ($1, $2, $3)`,
+    `INSERT INTO game_archive (name, date, players, scores)
+     VALUES ($1, $2, $3, $4)`,
     [name, date_played, JSON.stringify(players), JSON.stringify(scores)]
   );
 }

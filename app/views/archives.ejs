@@ -4,22 +4,33 @@
   <h1 class="archives_title">Archives</h1>
 
   <!-- Section 1 : Parties jouées -->
+    <!-- Section : Parties jouées -->
   <section class="games_archive">
     <h2>Parties jouées</h2>
     <% if (games.length === 0) { %>
       <p>Aucune partie jouée pour le moment.</p>
     <% } else { %>
-<ul class="games_list">
-<% games.forEach(game => { %>
-  <li class="game_item">
-    <strong><%= game.name %></strong><br>
-    <small><%= new Date(game.date).toLocaleDateString() %></small><br>
-    <span><%= game.participants %></span>
-  </li>
-<% }) %>
-</ul>
+      <ul class="games_list">
+        <% games.forEach(game => { %>
+          <li class="game_item">
+            <strong><%= game.name %></strong> - Participants : <%= game.participants %>
+            <p class="archive_classement_p">Classement final</p>
+            <ol class="archive_classement_list">
+              <% game.players
+                  .sort((a,b) => b.score - a.score)
+                  .forEach((p, i) => { %>
+                <li>
+                  <% if (i === 0) { %>🏆 <% } else if (i === 1) { %>🥈 <% } else if (i === 2) { %>🥉 <% } %>
+                  <%= p.name %> - <%= p.score %> pts
+                </li>
+              <% }) %>
+            </ol>
+          </li>
+        <% }) %>
+      </ul>
     <% } %>
   </section>
+
 
 <!-- Section 2 : Thèmes et questions archivés -->
 <% if (admin) { %>
