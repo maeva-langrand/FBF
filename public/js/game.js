@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
     overlay.style.display = "flex";
     overlay.innerHTML = `
       <div class="overlay-content" style="background:${card.theme_color}">
-        <h2>${card.theme_name}</h2>
+        <h2 class="theme-text">${card.theme_name}</h2>
         <p class="question-text">${card.question}</p>
         ${card.question_image ? `<img src="/uploads/${card.question_image}" style="max-width:90%; max-height:50%;">` : ""}
         ${card.youtube_url ? `<button id="playAudioBtn">▶️ Play Audio</button>` : ""}
@@ -91,9 +91,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById("showAnswerBtn").addEventListener("click", () => {
       overlay.querySelector(".overlay-content").innerHTML = `
-        <h2>${card.theme_name}</h2>
-        <p class="question-text">Question: ${card.question}</p>
-        <p class="answer-text">Réponse: ${card.response}</p>
+        <h2 class="theme-text">${card.theme_name}</h2>
+        <p class="answer-text">${card.response}</p>
         ${card.response_image ? `<img src="/uploads/${card.response_image}" style="max-width:90%; max-height:50%;">` : ""}
         ${card.youtube_url ? `<button id="playAudioBtn">▶️ Play Audio</button>` : ""}
         <div class="thumb-buttons">

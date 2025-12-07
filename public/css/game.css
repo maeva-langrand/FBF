@@ -67,11 +67,15 @@
 }
 
 .overlay-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
   width: 95%;
   height: 95%;
-  background: #fff;
-  padding: 20px;
-  border-radius: 10px;
+  padding: 2rem;
+  border-radius: 1rem;
   overflow-y: auto;
   text-align: center;
   box-sizing: border-box;
@@ -113,4 +117,42 @@ button {
 
 #timer-container {
 margin-top: 15rem;
+}
+
+.theme-text {
+  display: block;
+  color: white;
+   width: 100%;
+  font-size: 2rem;
+  text-transform: uppercase;
+  text-shadow: 1px 2px 8px black;
+  border-radius: .5rem;
+}
+.question-text, 
+.answer-text {
+  display: block;
+ 
+  background-color: rgba(255, 255, 255, 0.575);
+  border-radius: .5rem;
+  color: black;
+  padding: 3rem;
+}
+
+
+#showAnswerBtn {
+  width: 50%;
+    padding: .7rem 1.5rem;
+    background: var(--accent-color-2);
+    color: var(--font-color-main);
+    font-weight: 700;
+    border: none;
+    border-radius: 2rem;
+    cursor: pointer;
+    text-align: center;
+    transition: 0.2s ease;
+}
+
+#showAnswerBtn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
 }
