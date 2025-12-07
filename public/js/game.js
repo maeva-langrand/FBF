@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", () => {
   const gameDataEl = document.getElementById("gameData");
   const game = JSON.parse(gameDataEl.dataset.game);
@@ -62,64 +63,80 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelector(".grid-wrapper").appendChild(overlay);
 
   let activeCardEl = null;
+function openCard(card, cardEl) {
+  activeCardEl = cardEl;
+  overlay.style.display = "flex";
 
-  function openCard(card, cardEl) {
-    activeCardEl = cardEl;
-    overlay.style.display = "flex";
-    overlay.innerHTML = `
-      <div class="overlay-content" style="background:${card.theme_color}">
-        <h2 class="theme-text">${card.theme_name}</h2>
-        <p class="question-text">${card.question}</p>
-        ${card.question_image ? `<img src="/uploads/${card.question_image}" style="max-width:90%; max-height:50%;">` : ""}
-        ${card.youtube_url ? `<button id="playAudioBtn">▶️ Play Audio</button>` : ""}
-        <button id="showAnswerBtn">Afficher la réponse</button>
-      </div>
-    `;
+  // Garder le style existant
+  overlay.innerHTML = `
+    <div class="overlay-content" style="background:${card.theme_color}">
+      <p class="question-text">${card.question}</p>
+      ${card.question_image ? `<img src="/uploads/${card.question_image}" class="question-img">` : ""}
+      ${card.youtube_url ? `<button class="play-audio-btn">▶️ Écouter</button>` : ""}
+      <button id="showAnswerBtn">Afficher la réponse</button>
+    </div>
+  `;
 
-    if (card.youtube_url) {
-      document.getElementById("playAudioBtn").addEventListener("click", () => {
-        const start = card.youtube_start || 0;
-        const end = card.youtube_end || 30;
-        const iframe = document.createElement("iframe");
-        iframe.width = "600";
-        iframe.height = "340";
-        iframe.src = `https://www.youtube.com/embed/${card.youtube_url.split("v=")[1]}?start=${start}&end=${end}&autoplay=1`;
-        iframe.frameBorder = "0";
-        iframe.allow = "autoplay";
-        overlay.querySelector(".overlay-content").appendChild(iframe);
-      });
-    }
+  const content = overlay.querySelector(".overlay-content");
 
-    document.getElementById("showAnswerBtn").addEventListener("click", () => {
-      overlay.querySelector(".overlay-content").innerHTML = `
-        <h2 class="theme-text">${card.theme_name}</h2>
-        <p class="answer-text">${card.response}</p>
-        ${card.response_image ? `<img src="/uploads/${card.response_image}" style="max-width:90%; max-height:50%;">` : ""}
-        ${card.youtube_url ? `<button id="playAudioBtn">▶️ Play Audio</button>` : ""}
-        <div class="thumb-buttons">
-          <button id="thumbUpBtn">👍</button>
-          <button id="thumbDownBtn">👎</button>
-        </div>
-      `;
-
-      if (card.youtube_url) {
-        document.getElementById("playAudioBtn").addEventListener("click", () => {
-          const start = card.youtube_start || 0;
-          const end = card.youtube_end || 30;
-          const iframe = document.createElement("iframe");
-          iframe.width = "600";
-          iframe.height = "340";
-          iframe.src = `https://www.youtube.com/embed/${card.youtube_url.split("v=")[1]}?start=${start}&end=${end}&autoplay=1`;
-          iframe.frameBorder = "0";
-          iframe.allow = "autoplay";
-          overlay.querySelector(".overlay-content").appendChild(iframe);
-        });
-      }
-
-      document.getElementById("thumbUpBtn").addEventListener("click", () => finishCard(cardEl, card, true));
-      document.getElementById("thumbDownBtn").addEventListener("click", () => finishCard(cardEl, card, false));
+  // ⚡ Bouton lecture audio
+  if (card.youtube_url) {
+    content.querySelector(".play-audio-btn").addEventListener("click", e => {
+      e.stopPropagation();
+      e.currentTarget.remove();  // bouton disparaît
+      playAudioOnly(content, card);
     });
   }
+
+  // ⚡ Afficher la réponse
+  content.querySelector("#showAnswerBtn").addEventListener("click", () => {
+    renderAnswerContent(card, content);
+  });
+}
+
+// Lecture audio simple (YouTube invisible)
+function playAudioOnly(container, card) {
+  const videoId = getYouTubeId(card.youtube_url);
+  if (!videoId) return;
+
+  const start = card.youtube_start || 0;
+  const end = card.youtube_end || "";
+
+  const iframe = document.createElement("iframe");
+  iframe.width = "0";  // invisible
+  iframe.height = "0"; // invisible
+  iframe.src = `https://www.youtube.com/embed/${videoId}?start=${start}&end=${end}&autoplay=1&controls=0&modestbranding=1&playsinline=1`;
+  iframe.frameBorder = "0";
+  iframe.allow = "autoplay; encrypted-media";
+  container.appendChild(iframe);
+}
+
+// Fonction helper YouTube
+function getYouTubeId(url) {
+  if (!url) return null;
+  const regExp = /(?:youtube\.com.*(?:\?|&)v=|youtu\.be\/)([^&?]+)/;
+  const match = url.match(regExp);
+  return match ? match[1] : null;
+}
+
+// Fonction pour afficher la réponse (inchangée)
+function renderAnswerContent(card, container) {
+  container.innerHTML = `
+    <h2 class="theme-text">${card.theme_name}</h2>
+    <p class="answer-text">${card.response}</p>
+    ${card.response_image ? `<img src="/uploads/${card.response_image}" class="response-img">` : ""}
+    <div class="thumb-buttons">
+      <button id="thumbUpBtn">👍</button>
+      <button id="thumbDownBtn">👎</button>
+    </div>
+  `;
+
+  document.getElementById("thumbUpBtn").addEventListener("click", () => finishCard(activeCardEl, card, true));
+  document.getElementById("thumbDownBtn").addEventListener("click", () => finishCard(activeCardEl, card, false));
+}
+
+
+
 
   // --- FIN DE CARTE / POINTS ---
   function finishCard(cardEl, card, correct) {

@@ -6,7 +6,7 @@
     <p class="sidebar_current_play">Joueur actuel : <span id="current-player"><%= game.players[game.currentPlayerIndex].name %></span></p>
     
     <div class="legend">
-      <h3 class="sidebar_title_legend">Légende des thèmes :</h3>
+      <h3 class="sidebar_title_legend">Légende:</h3>
       <ul>
         <% game.themes.forEach(theme => { %>
           <li>
@@ -16,7 +16,7 @@
         <% }) %>
       </ul>
       <div id="timer-container">
-        <span id="timer">30</span>
+        <span id="timer"></span>
       </div>
     </div>
 
