@@ -95,6 +95,10 @@ font-weight: 800;
   position: relative;
 }
 
+.overlay-content img {
+  width: 10rem;
+}
+
 /* Légende */
 .legend ul {
   list-style: none;
@@ -153,7 +157,7 @@ margin-top: 2rem;
 
 
 #showAnswerBtn {
-  width: 50%;
+  width: 30%;
     padding: .7rem 1.5rem;
     background: var(--accent-color-2);
     color: var(--font-color-main);
@@ -168,6 +172,34 @@ margin-top: 2rem;
 #showAnswerBtn:hover {
     transform: scale(1.05);
     box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+.play-audio-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--font-color-main);
+  border: none;
+  border-radius: 2rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
+}
+
+.play-audio-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(0,0,0,0.2);
+}
+
+.play-audio-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
 }
 
 /* Scoreboard */
@@ -188,6 +220,7 @@ margin-top: 2rem;
 
 .scoreboard ol {
   padding-left: 1.5rem;
+
 }iframe {
   animation: fadeIn 0.3s ease forwards;
 }

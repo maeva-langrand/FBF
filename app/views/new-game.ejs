@@ -5,8 +5,8 @@
 
   <form class="new_game_form" action="/partie-en-cours" method="POST" id="newGameForm">
     <div>
-      <label>Nom de la partie :</label>
-      <input type="text" name="gameName" required>
+      <label for="gameNameInput">Nom de la partie :</label>
+      <input type="text" id="gameNameInput" name="gameName" placeholder="Nom de la partie" required>
     </div>
 
    <div>
@@ -15,7 +15,7 @@
 </div>
 
 <div id="playersContainer">
-  <!-- Les inputs pour noms des joueurs + thème préféré seront ajoutés ici dynamiquement -->
+  <!-- Les inputs pour noms des joueurs + thème préféré sont ajoutés ici dynamiquement -->
 </div>
 
 

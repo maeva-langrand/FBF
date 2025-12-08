@@ -5,18 +5,24 @@ import { insertGame, insertGamePlayers  } from "../datamappers/game-datamapper.j
 // Page formulaire pour configurer la partie
 export async function newGamePage(req, res) {
   const themes = await findAllThemes();
-  res.render("new-game", { themes, css:"new-game.css" });
+  res.render("new-game", { 
+    themes, 
+    game: { name: "" }, 
+    css:"new-game.css" });
 }
 
 // Démarrer la partie
 export async function startGame(req, res) {
 
-  const {
-    gameName,
-    players,
-    totalQuestions,
-    questionsPerPreferredTheme
-  } = req.body;
+  try {
+    const {
+      gameName,
+      players,
+      totalQuestions,
+      questionsPerPreferredTheme
+    } = req.body;
+
+    if (!gameName) throw new Error("Le nom de la partie est requis.");
 
   const questionsPerPreferred = Number(questionsPerPreferredTheme);
   const playersArray = Object.values(players);
@@ -37,25 +43,24 @@ export async function startGame(req, res) {
   });
 
   res.render("game-grid", {
-    game: {
-      name: gameName,
+      game: {
+        name: gameName,
+        themes,
+        players: playersArray,
+        cards: cardsWithThemeColor,
+        currentPlayerIndex: 0
+      },
       themes,
-      players: playersArray,
-      cards: cardsWithThemeColor,
-      currentPlayerIndex: 0
-    },
-    themes,
-    css: "game.css"
-  });
+      css: "game.css"
+    });
+  } catch (err) {
+    console.error("Erreur démarrage partie:", err);
+    res.status(400).send("Erreur lors du démarrage de la partie : " + err.message);
+      }
 }
-
 
 // Génération stricte des cartes
 function generateGameCards(players, allQuestions, totalQuestions, questionsPerPreferred) {
-
-  // -------------------
-  // VALIDATIONS
-  // -------------------
 
   // Thèmes préférés uniques
   const preferredThemeIds = players.map(p => Number(p.theme));
@@ -70,9 +75,8 @@ function generateGameCards(players, allQuestions, totalQuestions, questionsPerPr
     throw new Error("Plus de questions préférées demandées que le total de questions.");
   }
 
-  // -------------------
-  // 1️⃣ QUESTIONS PRÉFÉRÉES
-  // -------------------
+
+  // QUestions des thèes préférés
 
   const cards = [];
   const usedIds = new Set();
@@ -103,17 +107,14 @@ function generateGameCards(players, allQuestions, totalQuestions, questionsPerPr
     });
   });
 
-  // -------------------
-  // 2️⃣ COMPLÉTION AVEC
-  //    UNIQUEMENT LES
-  //    THÈMES NON-PRÉFÉRÉS
-  // -------------------
+
+  // CCOmplétion avec UNIQUEMENT les themes non préférés
 
   const remainingNeeded = totalQuestions - cards.length;
 
   const remainingPool = allQuestions.filter(q =>
     !usedIds.has(q.id) &&
-    !preferredThemeIds.includes(Number(q.theme)) // ⚡ STRICTEMENT NON-PRÉFÉRÉ
+    !preferredThemeIds.includes(Number(q.theme))
   );
 
   if (remainingPool.length < remainingNeeded) {
@@ -132,10 +133,8 @@ function generateGameCards(players, allQuestions, totalQuestions, questionsPerPr
     usedIds.add(q.id);
   });
 
-  // -------------------
-  // 3️⃣ MÉLANGE FINAL
-  // -------------------
-
+ 
+  // MÉlange 
   return cards
     .sort(() => Math.random() - 0.5)
     .map((q, index) => ({

@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   let timerValue = 3;
   let timerFinished = false;
 
-  // --- TIMER ---
+  // TImer
   const timerInterval = setInterval(() => {
     if (timerValue > 0) {
       timerValue--;
@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }, 1000);
 
-  // --- GRILLE ---
+  // gRid
   function renderGrid() {
     gridContainer.innerHTML = "";
     game.cards.forEach(card => {
@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   renderGrid();
 
-  // --- OVERLAY ---
+  // OVERLAY
   const overlay = document.createElement("div");
   overlay.classList.add("card-overlay");
   overlay.style.display = "none";
@@ -81,7 +81,7 @@ function openCard(card, cardEl) {
   const content = overlay.querySelector(".overlay-content");
   const audioContainer = content.querySelector(".audio-container");
 
-  // --- PLAY AUDIO ---
+  // Joue l'audio
   if (card.youtube_url) {
     const playBtn = content.querySelector(".play-audio-btn");
     playBtn.addEventListener("click", (e) => {
@@ -91,7 +91,7 @@ function openCard(card, cardEl) {
     });
   }
 
-  // --- SHOW ANSWER ---
+  // "VOir la réponse"
   document.getElementById("showAnswerBtn").addEventListener("click", () => {
     content.innerHTML = `
       <h2 class="theme-text">${card.theme_name}</h2>
@@ -120,7 +120,7 @@ function openCard(card, cardEl) {
   });
 }
 
-// --- Fonction pour créer le player audio uniquement ---
+// Player audio sans la vidéo
 function createYoutubePlayer(container, card) {
   const videoId = card.youtube_url.includes("v=")
     ? card.youtube_url.split("v=")[1].split("&")[0]
@@ -130,8 +130,8 @@ function createYoutubePlayer(container, card) {
   const end = card.youtube_end || "";
 
   const iframe = document.createElement("iframe");
-  iframe.width = "0";   // on ne veut pas afficher la vidéo
-  iframe.height = "0";  // juste le son
+  iframe.width = "0";   // on ne veut pas afficher la vidéo juste le son
+  iframe.height = "0"; 
   iframe.src = `https://www.youtube.com/embed/${videoId}?start=${start}&end=${end}&autoplay=1&controls=0&mute=0`;
   iframe.allow = "autoplay; encrypted-media";
   iframe.allowFullscreen = true;
@@ -149,7 +149,7 @@ function getYouTubeId(url) {
   return match ? match[1] : null;
 }
 
-// Fonction pour afficher la réponse (inchangée)
+// Fonction pour afficher la réponse 
 function renderAnswerContent(card, container) {
   container.innerHTML = `
     <h2 class="theme-text">${card.theme_name}</h2>
@@ -168,7 +168,7 @@ function renderAnswerContent(card, container) {
 
 
 
-  // --- FIN DE CARTE / POINTS ---
+  // CAlcul des points
   function finishCard(cardEl, card, correct) {
     card.played = true;
 
@@ -206,11 +206,11 @@ function renderAnswerContent(card, container) {
     }
   }
 
-  // --- CLASSEMENT ---
+  // Classement en direct
 function updateScores() {
   const scoreList = document.getElementById("score-list");
   if(!scoreList) return;
-  // On trie les joueurs par score décroissant
+  // Trie par score décroissant
   const sortedPlayers = [...game.players].sort((a,b) => b.score - a.score);
   scoreList.innerHTML = "";
   sortedPlayers.forEach((p,i)=>{
@@ -221,16 +221,16 @@ function updateScores() {
   });
 }
 
-  // --- FIN DE PARTIE ---
+//Fin de partie
 async function endGame() {
 
-  // --------- SAVE ARCHIVE ---------
+//Enregistrer la partie en archives
 async function saveArchive() {
   const gameNameInput = document.getElementById("gameNameInput");
-  const name = gameNameInput?.value || `Partie du ${new Date().toLocaleDateString()}`;
+  const name = `${gameNameInput?.value} - ${new Date().toLocaleDateString()}`|| `Partie du ${new Date().toLocaleDateString()}`;
 
   const playersData = game.players.map(p => ({
-    name: p.name,
+    name: p.name,     
     score: p.score,
     theme: p.theme
   }));
@@ -247,9 +247,10 @@ async function saveArchive() {
 }
 
 
+
   await saveArchive();
 
-  // --------- OVERLAY FIN ---------
+  // Overlay de fin de parrtie
   const overlayEnd = document.createElement("div");
   overlayEnd.classList.add("final-overlay");
   overlayEnd.style.display = "flex";
@@ -282,7 +283,7 @@ document.getElementById("replayBtn").onclick = () => location.href = "/";
 
 
 
-  // --- Initialisation du classement ---
+  // Classement
   updateScores();
 
 });

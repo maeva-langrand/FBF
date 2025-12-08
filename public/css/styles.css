@@ -2,7 +2,7 @@
     height: 100%;
     margin: 0;
     background-color: var(--main-color);
-    font-family: 'Spiegel', 'Beaufort For LoL', Verdana, Geneva, Tahoma, sans-serif;
+    font-family: 'Spiegel', Verdana, Geneva, Tahoma, sans-serif;
     box-sizing: border-box;
     scroll-behavior: smooth;
      
@@ -32,10 +32,6 @@ body {
     color: var(--font-color-main);
 }
 
-h1, h2, h3 {
-    font-family: Beaufort For LoL;
-}
-
 .navbar {
   padding: 1rem;
   height: var(--header-height);
@@ -59,7 +55,6 @@ h1, h2, h3 {
 }
 
 .nav-list a {
-  color: var(--font-color-main);
   text-transform: uppercase;
   text-decoration: none;
   font-weight: 700;
@@ -69,7 +64,7 @@ h1, h2, h3 {
 }
 
 .navbar_connexion {
-font-style: italic;
+color: var(--accent-color-1);
 }
 
 h1 {

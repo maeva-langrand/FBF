@@ -30,7 +30,7 @@ export const gameDatamapper = {
 
 export async function insertGameArchive(entry) {
   const { name, players, scores } = entry;
-  const date_played = new Date(); // on crée la date ici
+  const date_played = new Date();
 
   await client.query(
     `INSERT INTO game_archive (name, date, players, scores)
@@ -39,7 +39,7 @@ export async function insertGameArchive(entry) {
   );
 }
 
-// ---- create game
+
 export async function insertGame(name) {
   const { rows } = await client.query(
     `INSERT INTO games (name, created_at)
@@ -50,7 +50,7 @@ export async function insertGame(name) {
   return rows[0];
 }
 
-// ---- add players / scores
+
 export async function insertGamePlayers(gameId, players) {
   for (const p of players) {
     await client.query(
@@ -61,7 +61,7 @@ export async function insertGamePlayers(gameId, players) {
   }
 }
 
-// ----------------- FETCH ARCHIVES -----------------
+// Récupérer archives
 export async function findAllArchivedGames() {
   const result = await client.query(`
     SELECT 
@@ -71,11 +71,14 @@ export async function findAllArchivedGames() {
       json_agg(
         json_build_object(
           'name', gp.name,
-          'score', gp.score
-        ) ORDER BY gp.score DESC
+          'score', gp.score,
+          'theme', t.theme_name
+        )
+        ORDER BY gp.score DESC
       ) AS players
     FROM games g
     JOIN game_players gp ON gp.game_id = g.id
+    LEFT JOIN themes t ON t.id = gp.preferred_theme::int
     GROUP BY g.id
     ORDER BY g.created_at DESC
   `);

@@ -35,6 +35,12 @@
   border-radius: 4px;
 }
 
+.theme_pref {
+  color: #777;
+  font-size: 0.9em;
+  margin-left: 5px;
+}
+
 /* ===== Section Thèmes et questions archivés ===== */
 .themes_archive h2 {
   font-size: 1.8rem;
