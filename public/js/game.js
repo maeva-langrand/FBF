@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       document.querySelectorAll(".card").forEach(card => {
         if (!card.classList.contains("played")) {
           card.classList.add("greyed");
-          card.style.backgroundColor = "#aaa";
+          card.style.backgroundColor = "#d4cdcaff";
         }
       });
       if(timerEl) timerEl.style.display = "none";
@@ -65,16 +65,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 function openCard(card, cardEl) {
   activeCardEl = cardEl;
   overlay.style.display = "flex";
+    overlay.classList.add("show-animation");
+    
 
   // Overlay avec structure fixe + container pour l’audio
   overlay.innerHTML = `
-    <div class="overlay-content" style="background:${card.theme_color}">
-      <h2 class="theme-text">${card.theme_name}</h2>
+    <div class="overlay-content" style="border-left: 10rem solid ${card.theme_color};">
+    <h2 class="theme-text" style="border-bottom: 10px solid ${card.theme_color};">${card.theme_name}</h2>
       <p class="question-text">${card.question}</p>
       ${card.question_image ? `<img src="/uploads/${card.question_image}" style="max-width:90%; max-height:50%;">` : ""}
       <div class="audio-container"></div>
       ${card.youtube_url ? `<button class="play-audio-btn">▶️ Lancer l'extrait</button>` : ""}
-      <button id="showAnswerBtn">Afficher la réponse</button>
+      <button id="showAnswerBtn" style="background: ${card.theme_color};">Afficher la réponse</button>
     </div>
   `;
 
@@ -94,7 +96,7 @@ function openCard(card, cardEl) {
   // "VOir la réponse"
   document.getElementById("showAnswerBtn").addEventListener("click", () => {
     content.innerHTML = `
-      <h2 class="theme-text">${card.theme_name}</h2>
+  <h2 class="theme-text" style="border-bottom: 10px solid ${card.theme_color};">${card.theme_name}</h2>
       <p class="answer-text">${card.response}</p>
       ${card.response_image ? `<img src="/uploads/${card.response_image}" style="max-width:90%; max-height:50%;">` : ""}
       <div class="audio-container"></div>

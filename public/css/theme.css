@@ -260,7 +260,7 @@ body.edit_mode .edit_mode_button {
 .qa-text .question,
 .qa-text .answer {
     display: inline-block;     
-    max-width: 80vw;           
+    max-width: 70vw;           
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;      
