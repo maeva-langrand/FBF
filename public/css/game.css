@@ -111,7 +111,7 @@ font-weight: 800;
 }
 
 .overlay-content img {
-  width: 20rem;
+  width: 40rem;
   height: 20rem;
   object-fit: cover;   
   object-position: center;
@@ -119,6 +119,11 @@ font-weight: 800;
   border: 2px solid rgba(0, 0, 0, 0.397);
   max-height: 30vh;
   transition: transform 0.3s ease;
+}
+
+
+.overlay-content img:hover {
+    transform: scale(1.3);
 }
 
 /* Légende */
@@ -314,6 +319,7 @@ margin-top: 2rem;
 .final-overlay p {
   font-size: 1.5rem;
   margin-bottom: 2rem;
+  color: white;
 }
 
 .final-overlay ol {
@@ -329,6 +335,7 @@ margin-top: 2rem;
   align-items: center;
   justify-content: flex-start;
   gap: 0.5rem;
+    color: white;
 }
 
 .final-overlay .emoji {

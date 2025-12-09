@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const currentPlayerEl = document.getElementById("current-player");
   const timerEl = document.getElementById("timer");
 
-  let timerValue = 3;
+  let timerValue = 30;
   let timerFinished = false;
 
   // TImer
