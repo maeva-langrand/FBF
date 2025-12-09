@@ -21,7 +21,7 @@ export async function themesPage(req, res) {
 
 
 
-/*AFFICHER LA PAGE D'EDITION */
+// AFFICHER LA PAGE D'EDITION 
 export async function themeEditPage(req, res) {
     try {
         const themeId = parseInt(req.params.id);
@@ -54,7 +54,7 @@ export async function themeEditPage(req, res) {
 }
 
 
-/* EDITER UN THEME */
+// EDITER UN THEME 
 export async function themeEditExisting(req, res) {
     const themeId = parseInt(req.params.id);
 
@@ -106,7 +106,7 @@ export async function themeEditExisting(req, res) {
     }
 }
 
-/* PAGE : CREER UN THEME */
+// PAGE : CREER UN THEME 
 export function themeAddNewPage(req, res) {
     const emptyTheme = {
         id: null,
@@ -124,7 +124,7 @@ export function themeAddNewPage(req, res) {
     });
 }
 
-/* REELLEMENT CREER UN THEME */
+// REELLEMENT CREER UN THEME 
 export async function themeCreateNewTheme(req, res) {
     try {
         const { theme_name, slug, color } = req.body;

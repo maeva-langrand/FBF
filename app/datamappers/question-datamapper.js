@@ -1,7 +1,7 @@
 import { client } from "../database/client-database.js";
 
 
-/* Récupérer toutes les questions avec infos sur le thème SI ACTIFS*/
+// Récupérer toutes les questions avec infos sur le thème SI ACTIFS
 export async function findAllQuestions(activeOnly = true) {
   const query = `
     SELECT 
@@ -19,7 +19,7 @@ export async function findAllQuestions(activeOnly = true) {
 }
 
 
-/* Récupérer une question par ID */
+// Récupérer une question par ID 
 export async function findQuestionById(id) {
     const result = await client.query(`
         SELECT 
@@ -34,7 +34,7 @@ export async function findQuestionById(id) {
     return result.rows[0] ?? null;
 }
 
-/* Créer une nouvelle question */
+// Créer une nouvelle question 
 export async function createQuestion({ question, response, theme, question_image, response_image, youtube_url, youtube_start, youtube_end }) {
     const result = await client.query(`
         INSERT INTO questions (question, response, theme, question_image, response_image, youtube_url, youtube_start, youtube_end)
@@ -44,7 +44,7 @@ export async function createQuestion({ question, response, theme, question_image
     return result.rows[0];
 }
 
-/* Mettre à jour une question existante */
+// Mettre à jour une question existante 
 export async function updateQuestion(id, {   question,
   response,
   theme,
@@ -77,12 +77,12 @@ export async function updateQuestion(id, {   question,
     return result.rows[0] ?? null;
 }
 
-/* Supprimer une question */
+// Supprimer une question 
 export async function deleteQuestionById(id) {
     await client.query(`DELETE FROM questions WHERE id = $1`, [id]);
 }
 
-/* Mettre à jour l'état 'archived' de toutes les questions d'un thème */
+// Mettre à jour l'état 'archived' de toutes les questions d'un thème 
 export async function archiveQuestionsByTheme(themeId, archivedStatus) {
     await client.query(`
         UPDATE questions

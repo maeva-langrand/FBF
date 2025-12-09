@@ -2,13 +2,13 @@ import { findThemeById, updateTheme, findAllThemes } from "../datamappers/theme-
 import { archiveQuestionsByTheme, findAllQuestions } from "../datamappers/question-datamapper.js";
 import { findAllArchivedGames } from "../datamappers/game-datamapper.js";
 
-// Fonction qui renvoie directement la vue avec toutes les archives
+// PAge : archives
 export async function archivesPage(req, res) {
   try {
-    // --- Parties jouées ---
+    // Parties jouées 
     const games = await findAllArchivedGames();
 
-    // --- Thèmes et questions archivés ---
+    // Thèmes et questions archivés
     const themes = await findAllThemes(false);
     const archivedThemes = themes.filter(t => t.archived);
 
@@ -35,9 +35,7 @@ export async function archivesPage(req, res) {
 
 
 
-// ARCHIVER LE THEME
-
-
+// Archiver le thème tout entier avec ses qustions
 
 export async function themeArchiveToggle(req, res) {
     const themeId = parseInt(req.params.id);
@@ -47,7 +45,7 @@ export async function themeArchiveToggle(req, res) {
     const newArchivedStatus = !theme.archived;
 
 await updateTheme(themeId, { archived: newArchivedStatus });
-    await archiveQuestionsByTheme(themeId, newArchivedStatus); // fonction à créer dans question-datamapper.js
+    await archiveQuestionsByTheme(themeId, newArchivedStatus);
 
     res.redirect("/");
 }

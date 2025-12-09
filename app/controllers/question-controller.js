@@ -1,4 +1,3 @@
-// question-controller.js
 import { findAllQuestions, findQuestionById, createQuestion, updateQuestion, deleteQuestionById } from "../datamappers/question-datamapper.js";
 import { findAllThemes } from "../datamappers/theme-datamapper.js";
 import { getYouTubeId } from "../helpers/youtube-helper.js";
@@ -162,12 +161,12 @@ export async function questionEditExisting(req, res) {
         if (deleteQuestionImage === "true") question_image = null;
         else if (req.files?.questionImage?.[0]) question_image = req.files.questionImage[0].filename;
 
-        // IMAGE RÉPONSE
+        // IMAGE REPONSE
         let response_image = existingQuestion.response_image;
         if (deleteResponseImage === "true") response_image = null;
         else if (req.files?.responseImage?.[0]) response_image = req.files.responseImage[0].filename;
 
-        // AUDIO / YOUTUBE
+        // AUDIO YOUTUBE
         let youtube_url = existingQuestion.youtube_url;
         let youtube_start = existingQuestion.youtube_start;
         let youtube_end = existingQuestion.youtube_end;

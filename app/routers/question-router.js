@@ -32,7 +32,7 @@ questionRouter.post(
 );
 
 
-/* Éditer une question */
+// Éditer une question
 questionRouter.get("/questions/editer/:id", adminOnly, questionEditPage);
 
 questionRouter.post(
@@ -45,5 +45,5 @@ questionRouter.post(
   questionEditExisting
 );
 
-/* Supprimer une question */
+// Supprimer une question 
 questionRouter.post("/questions/supprimer/:id", adminOnly, questionDelete);

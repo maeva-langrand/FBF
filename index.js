@@ -1,9 +1,7 @@
-// l'application
 import "dotenv/config";
 import path from "node:path";
 import express from "express";
 import session from "express-session";
-import multer from "multer";
 
 import { themeRouter } from "./app/routers/theme-router.js";
 import { questionRouter } from "./app/routers/question-router.js";
