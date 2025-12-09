@@ -21,7 +21,12 @@ export async function questionsPage(req, res) {
         });
     } catch (err) {
         console.error(err);
-        res.status(500).send("Erreur serveur");
+        res.status(500).render("error", {
+            status: 500,
+            message: "Impossible de récupérer les questions",
+            pagetitle: "| Erreur serveur",
+            css: "theme.css"
+        });
     }
 }
 
@@ -32,7 +37,13 @@ export async function questionEditPage(req, res) {
         const question = await findQuestionById(questionId);
         const themes = await findAllThemes();
 
-        if (!question) return res.status(404).send("Question non trouvée");
+           if (!question) {
+            return res.status(404).render("error", {
+                status: 404,
+                message: "Question non trouvée",
+                pagetitle: "| Question introuvable",
+                css: "theme.css"
+            });       }
 
         res.render("question", {
             question,
@@ -42,9 +53,14 @@ export async function questionEditPage(req, res) {
             pagetitle: "| Éditer la question",
             css: "theme.css"
         });
-    } catch (err) {
+ } catch (err) {
         console.error(err);
-        res.status(500).send("Erreur serveur");
+        res.status(500).render("error", {
+            status: 500,
+            message: "Impossible de charger la page d'édition",
+            pagetitle: "| Erreur serveur",
+            css: "theme.css"
+        });
     }
 }
 
@@ -89,7 +105,12 @@ export async function questionCreate(req, res) {
         const response_image = req.files?.responseImage?.[0]?.filename || null;
 
         if (!questionText || !response || !theme) {
-            return res.status(400).send("Veuillez remplir tous les champs obligatoires");
+            return res.status(400).render("error", {
+                status: 400,
+                message: "Veuillez remplir tous les champs obligatoires",
+                pagetitle: "| Erreur formulaire",
+                css: "theme.css"
+            });
         }
 
         await createQuestion({
@@ -105,9 +126,14 @@ export async function questionCreate(req, res) {
 
         res.redirect("/questions");
 
-    } catch (err) {
+   } catch (err) {
         console.error(err);
-        res.status(500).send("Erreur serveur");
+        res.status(500).render("error", {
+            status: 500,
+            message: "Impossible de créer la question",
+            pagetitle: "| Erreur serveur",
+            css: "theme.css"
+        });
     }
 }
 
@@ -175,7 +201,12 @@ export async function questionEditExisting(req, res) {
 
     } catch (err) {
         console.error(err);
-        res.status(500).send("Erreur serveur");
+        res.status(500).render("error", {
+            status: 500,
+            message: "Impossible d'éditer la question",
+            pagetitle: "| Erreur serveur",
+            css: "theme.css"
+        });
     }
 }
 
@@ -187,7 +218,13 @@ export async function questionDelete(req, res) {
         res.redirect("/questions");
     } catch (err) {
         console.error(err);
-        res.status(500).send("Erreur serveur");
+        res.status(500).render("error", {
+            status: 500,
+            message: "Impossible de supprimer la question",
+            pagetitle: "| Erreur serveur",
+            css: "theme.css"
+        });
     }
 }
+
 
