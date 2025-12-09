@@ -100,7 +100,7 @@ function openCard(card, cardEl) {
       <p class="answer-text">${card.response}</p>
       ${card.response_image ? `<img src="/uploads/${card.response_image}" style="max-width:90%; max-height:50%;">` : ""}
       <div class="audio-container"></div>
-      ${card.youtube_url ? `<button class="play-audio-btn">▶️ Lancer l'extrait</button>` : ""}
+      ${card.youtube_url ? `<button class="play-audio-btn">▶️ Réécouter</button>` : ""}
       <div class="thumb-buttons">
         <button id="thumbUpBtn">👍</button>
         <button id="thumbDownBtn">👎</button>
@@ -112,7 +112,7 @@ function openCard(card, cardEl) {
     if (card.youtube_url) {
       const answerPlayBtn = content.querySelector(".play-audio-btn");
       answerPlayBtn.addEventListener("click", () => {
-        answerPlayBtn.remove();
+      /*  answerPlayBtn.remove();*/
         createYoutubePlayer(answerAudioContainer, card);
       });
     }

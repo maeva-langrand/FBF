@@ -11,10 +11,31 @@
         method="POST" enctype="multipart/form-data">
 
         <!-- QUESTION -->
-        <div class="form-group">
-            <label for="questionText">Question :</label>
-            <textarea id="questionText" name="questionText" required><%= question.question %></textarea>
-        </div>
+<div class="form-group">
+    <label>Question :</label>
+
+    <!-- TOOLBAR -->
+    <div class="mini-toolbar">
+        <button type="button" data-cmd="bold"><b>G</b></button>
+        <button type="button" data-cmd="italic"><i>I</i></button>
+        <button type="button" data-cmd="underline"><u>S</u></button>
+        <button type="button" data-cmd="insertUnorderedList">• Liste</button>
+
+        <input type="color" data-cmd="foreColor" title="Couleur texte">
+        <input type="color" data-cmd="hiliteColor" title="Surligner">
+    </div>
+
+    <!-- EDITEUR -->
+    <div id="questionEditor"
+         class="mini-editor"
+         contenteditable="true"><%- question.question %></div>
+
+    <!-- CHAMP ENVOYÉ AU SERVEUR -->
+    <input type="hidden"
+           id="questionText"
+           name="questionText"
+           required>
+</div>
 
         <!-- THÈME -->
         <div class="form-group">
@@ -60,10 +81,28 @@
         </div>
 
         <!-- RÉPONSE -->
-        <div class="form-group">
-            <label for="response">Réponse :</label>
-            <textarea id="response" name="response" required><%= question.response %></textarea>
-        </div>
+<div class="form-group">
+    <label>Réponse :</label>
+
+    <div class="mini-toolbar">
+        <button type="button" data-cmd="bold"><b>G</b></button>
+        <button type="button" data-cmd="italic"><i>I</i></button>
+        <button type="button" data-cmd="underline"><u>S</u></button>
+        <button type="button" data-cmd="insertUnorderedList">• Liste</button>
+
+        <input type="color" data-cmd="foreColor">
+        <input type="color" data-cmd="hiliteColor">
+    </div>
+
+    <div id="responseEditor"
+         class="mini-editor"
+         contenteditable="true"><%- question.response %></div>
+
+    <input type="hidden"
+           id="response"
+           name="response"
+           required>
+</div>
 
         <!-- IMAGE RÉPONSE -->
         <div class="form-group">
@@ -152,5 +191,7 @@
     <% } %>
 
 </main>
+
+<script src="/js/mini-editor.js"></script>
 
 <%- include("partials/footer.ejs") %>

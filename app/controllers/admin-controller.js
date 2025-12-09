@@ -26,7 +26,11 @@ export function adminDeconnexion (req, res) {
     req.session.destroy(err =>{
         if (err) {
             console.error("Erreur lors de la déconnexion:", err);
-            return res.redirect("/");
+            return res.status(500).render("error", {
+                status: 500,
+                pagetitle: " | Erreur",
+                message: "Impossible de vous déconnecter. Veuillez réessayer."
+            });
         }
 
         res.render("connexion", {
@@ -38,7 +42,11 @@ export function adminDeconnexion (req, res) {
 
 export function adminOnly(req, res, next) {
   if (!req.session.admin) {
-    return res.status(403).send("Accès interdit : vous n'êtes pas connecté en tant qu'administrateur.");
+    return res.status(403).render("error", {
+      status: 403,
+      pagetitle: " | Accès interdit",
+      message: "Vous devez être connecté en tant qu'administrateur pour accéder à cette page."
+    });
   }
   next();
 }

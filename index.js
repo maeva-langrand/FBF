@@ -60,13 +60,24 @@ app.use(archiveRouter);
 app.use(gameRouter);
 
 
-// middleware de gestion d'erreur 500 global
-app.use((err, req, res, next) => {
-  console.log(err);
-  res.status(500).send("Erreur serveur interne... veuillez reessayer plus tard...");
-  next;
+// 404
+app.use((req, res, next) => {
+  res.status(404).render("error", {
+    status: 404,
+    pagetitle: "Page non trouvée",
+    message: "La page que vous cherchez n'existe pas."
+  });
 });
 
+// 500
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).render("error", {
+    status: 500,
+    pagetitle: "Erreur serveur",
+    message: "Une erreur inattendue est survenue."
+  });
+});
 
 app.listen(port, () => {
   console.log(`✨ FBF est prêt à l'adresse http://localhost:${port}`);
