@@ -9,8 +9,21 @@ document.addEventListener("DOMContentLoaded", async () => {
   const currentPlayerEl = document.getElementById("current-player");
   const timerEl = document.getElementById("timer");
 
+  // TImer de départ
   let timerValue = 30;
   let timerFinished = false;
+
+  //Timer de questions
+let questionTimerInterval = null;       // Interval du timer de question
+let questionTimeRemaining = 40;         // Temps restant
+let timerWasInterrupted = false;        // Pour savoir si le timer a été arrêté par clic
+let hasPlayedCountdown = false;         // Pour ne jouer le son qu'une fois
+
+
+const countdownSound  = new Audio("/sounds/countdown.mp3");
+countdownSound.volume = 0.6;
+
+
 
   // TImer
   const timerInterval = setInterval(() => {
@@ -29,6 +42,60 @@ document.addEventListener("DOMContentLoaded", async () => {
       if(timerEl) timerEl.style.display = "none";
     }
   }, 1000);
+
+
+  //Fonction lancer timer de question 
+function startQuestionTimer(duration = 40) {
+    stopQuestionTimer(true);        // stoppe tout timer existant
+    timerWasInterrupted = false;    
+    hasPlayedCountdown = false;     
+    questionTimeRemaining = duration;
+
+    updateQuestionTimerUI();
+
+    questionTimerInterval = setInterval(() => {
+        questionTimeRemaining--;
+        updateQuestionTimerUI();
+
+        // Compte à rebours sonore
+      if (!timerWasInterrupted && questionTimeRemaining <= 9 && !hasPlayedCountdown) {
+            countdownSound.currentTime = 0;
+            countdownSound.play();
+            hasPlayedCountdown = true;
+        }
+
+        // Fin du timer
+        if (questionTimeRemaining <= 0) {
+            stopQuestionTimer(false);  // false = timer terminé normalement
+        }
+
+
+    }, 1000);
+}
+
+
+function stopQuestionTimer(interrupted = true) {
+    timerWasInterrupted = interrupted;     // si on arrête le timer manuellement, bloquer le son
+    if (questionTimerInterval) {
+        clearInterval(questionTimerInterval);
+        questionTimerInterval = null;
+    }
+}
+
+
+function updateQuestionTimerUI() {
+    const el = document.getElementById("questionTimer");
+    if (!el) return;
+
+    el.textContent = questionTimeRemaining;
+
+    if (questionTimeRemaining <= 9) {
+        el.classList.add("danger");
+    } else {
+        el.classList.remove("danger");
+    }
+}
+
 
   // gRid
   function renderGrid() {
@@ -70,7 +137,8 @@ function openCard(card, cardEl) {
 
   // Overlay avec structure fixe + container pour l’audio
   overlay.innerHTML = `
-    <div class="overlay-content" style="border-left: 10rem solid ${card.theme_color};">
+  <div class="overlay-content" style="border-left: 10rem solid ${card.theme_color};">
+  <div id="questionTimer" class="question-timer" style="background: ${card.theme_color}";></div>
     <h2 class="theme-text" style="border-bottom: 10px solid ${card.theme_color};">${card.theme_name}</h2>
       <p class="question-text">${card.question}</p>
       ${card.question_image ? `<img src="/uploads/${card.question_image}" style="max-width:90%; max-height:50%;">` : ""}
@@ -95,6 +163,7 @@ function openCard(card, cardEl) {
 
   // "VOir la réponse"
   document.getElementById("showAnswerBtn").addEventListener("click", () => {
+        stopQuestionTimer(true);
     content.innerHTML = `
   <h2 class="theme-text" style="border-bottom: 10px solid ${card.theme_color};">${card.theme_name}</h2>
       <p class="answer-text">${card.response}</p>
@@ -120,6 +189,7 @@ function openCard(card, cardEl) {
     document.getElementById("thumbUpBtn").addEventListener("click", () => finishCard(cardEl, card, true));
     document.getElementById("thumbDownBtn").addEventListener("click", () => finishCard(cardEl, card, false));
   });
+  startQuestionTimer();
 }
 
 // Player audio sans la vidéo
@@ -175,8 +245,9 @@ function renderAnswerContent(card, container) {
     card.played = true;
 
     const currentPlayer = game.players[game.currentPlayerIndex];
+stopQuestionTimer(true);
 
-    // Attribution des points
+    // Attribution des pointss
     let points = 0;
     if(correct) {
       if(card.theme === parseInt(currentPlayer.theme)) points = 2; // thème préféré du joueur

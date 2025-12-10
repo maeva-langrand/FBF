@@ -6,6 +6,10 @@
     <h2 class="sidebar_game_name"><%= game.name %></h2>
     <p class="sidebar_current_play">Joueur actuel : <span id="current-player"><%= game.players[game.currentPlayerIndex].name %></span></p>
     
+          <div id="timer-container">
+        <span id="timer"></span>
+      </div>
+      
     <div class="legend">
       <h3 class="sidebar_title_legend">Légende :</h3>
       <ul>
@@ -16,9 +20,7 @@
           </li>
         <% }) %>
       </ul>
-      <div id="timer-container">
-        <span id="timer"></span>
-      </div>
+
     </div>
 
     <!-- Classement -->
