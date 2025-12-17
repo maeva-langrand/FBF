@@ -10,6 +10,12 @@
         action="<%= mode === 'edit' ? '/questions/editer/' + question.id : '/questions/nouvelle-question' %>"
         method="POST" enctype="multipart/form-data">
 
+        <!-- Intention de suppression d'imatge/audio-->
+
+           <input type="hidden" name="deleteQuestionImage" id="deleteQuestionImage" value="false">
+    <input type="hidden" name="deleteResponseImage" id="deleteResponseImage" value="false">
+    <input type="hidden" name="deleteAudio" id="deleteAudio" value="false">
+
         <!-- QUESTION -->
 <div class="form-group">
     <label>Question :</label>
@@ -56,7 +62,7 @@
         </div>
 
         <!-- IMAGE QUESTION -->
-        <div class="form-group">
+        <div class="form-group" id="question-image-block">
             <label>Image de la question :</label>
 
             <% if (question.question_image) { %>
@@ -67,12 +73,10 @@
                     <input type="file" name="questionImage">
                 </div>
                 <div>
-                    <button type="submit"
-                            name="deleteQuestionImage"
-                            value="true"
-                            class="question_delete_img_btn">
-                        Supprimer l'image de la question
-                    </button>
+<button type="button"
+        class="question_delete_img_btn delete-question-image-btn">
+    Supprimer l'image de la question
+</button>
                 </div>
             <% } else { %>
                 <p>Aucune image associée.</p>
@@ -105,7 +109,7 @@
 </div>
 
         <!-- IMAGE RÉPONSE -->
-        <div class="form-group">
+        <div class="form-group" id="response-image-block">
             <label>Image de la réponse :</label>
 
             <% if (question.response_image) { %>
@@ -116,12 +120,10 @@
                     <input type="file" name="responseImage">
                 </div>
                 <div>
-                    <button type="submit"
-                            name="deleteResponseImage"
-                            value="true"
-                            class="question_delete_img_btn">
-                        Supprimer l'image de la réponse
-                    </button>
+<button type="button"
+        class="question_delete_img_btn delete-response-image-btn">
+    Supprimer l'image de la réponse
+</button>
                 </div>
             <% } else { %>
                 <p>Aucune image associée.</p>
@@ -130,7 +132,7 @@
         </div>
 
         <!-- EXTRAT YOUTUBE -->
-        <div class="form-group">
+      <div class="form-group" id="audio-block">
             <label>Extrait sonore (YouTube)</label>
             <p>Collez l'URL de la vidéo YouTube et définissez l'extrait à jouer :</p>
 
@@ -168,12 +170,10 @@
 <% } %>
 
                 <div>
-                    <button type="submit"
-                            name="deleteAudio"
-                            value="true"
-                            class="question_delete_img_btn">
-                        Supprimer l’extrait
-                    </button>
+<button type="button"
+        class="question_delete_img_btn delete-audio-btn">
+    Supprimer l’extrait
+</button>
                 </div>
             <% } %>
         </div>
@@ -190,8 +190,13 @@
         </form>
     <% } %>
 
+
+
+
+    
 </main>
 
 <script src="/js/mini-editor.js"></script>
+<script src="/js/question-edit.js"></script>
 
 <%- include("partials/footer.ejs") %>

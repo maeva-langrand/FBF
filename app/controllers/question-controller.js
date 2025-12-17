@@ -156,6 +156,7 @@ export async function questionEditExisting(req, res) {
             deleteAudio
         } = req.body;
 
+        
         // IMAGE QUESTION
         let question_image = existingQuestion.question_image;
         if (deleteQuestionImage === "true") question_image = null;
