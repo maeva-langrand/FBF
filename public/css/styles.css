@@ -265,3 +265,63 @@ color: inherit;
 .error_container .btn:hover {
   background: #c9302c;
 }
+
+
+.modal_overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal_overlay.hidden {
+  display: none;
+}
+
+.modal_content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 1rem;
+  max-width: 33rem;
+  width: 90%;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  animation: pop 0.3s ease;
+}
+
+@keyframes pop {
+  from { transform: scale(0.9); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+.rules_list {
+  margin: 1rem 0 2rem;
+  padding-left: 1.2rem;
+  list-style: none;
+}
+
+.rules_list li {
+  margin-bottom: .5rem;
+}
+
+.primary_btn {
+  background: var(--accent-color-1);
+  color: var(--font-color-secondary);
+  border: none;
+  font-weight: 600;
+  padding: .8rem 1.5rem;
+  border-radius: 1rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.primary_btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}

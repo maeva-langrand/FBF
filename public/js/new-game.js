@@ -38,4 +38,22 @@ document.addEventListener("DOMContentLoaded", () => {
       playersContainer.appendChild(playerDiv);
     }
   });
+
+  const launchBtn = document.getElementById("launchGameBtn");
+const modal = document.getElementById("rulesModal");
+const startBtn = document.getElementById("startGameBtn");
+
+launchBtn.addEventListener("click", (e) => {
+  e.preventDefault(); 
+  modal.classList.remove("hidden");
+});
+
+const form = document.getElementById("newGameForm");
+
+startBtn.addEventListener("click", () => {
+  modal.classList.add("hidden");
+  form.submit();
+});
+
+
 });

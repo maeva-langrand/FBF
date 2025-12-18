@@ -29,9 +29,27 @@
       <input type="number" name="totalQuestions" min="1" required>
     </div>
 
-    <button type="submit">Commencer la partie ✨</button>
+    <button id="launchGameBtn" type="button">Commencer la partie ✨</button>
   </form>
 </main>
+
+<div id="rulesModal" class="modal_overlay hidden">
+  <div class="modal_content">
+    <h2>Règles du jeu</h2>
+
+    <ul class="rules_list">
+      <li>👥 Les joueurs (ou les équipes) jouent à tour de rôle.</li>
+      <li>🔍 Repérez la couleur de votre thème préféré, et retenez l'emplacement de vos questions dans la grille pour maximiser vos chances.</li>
+      <li>🃏 Choisissez une carte pour afficher la question.</li>
+      <li>⌛ Vous avez 40 secondes pour répondre.</li>
+      <li>✅ Bonne réponse = entre 1 et 3 points selon le thème.</li>
+    </ul>
+
+    <button id="startGameBtn" class="primary_btn">
+      ✨ C’est parti !
+    </button>
+  </div>
+</div>
 
 
 <div id="themesData" data-themes='<%- JSON.stringify(themes).replace(/'/g, "&apos;") %>'></div>

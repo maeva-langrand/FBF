@@ -111,19 +111,22 @@ font-weight: 800;
 }
 
 .overlay-content img {
-  width: 45rem;
-  height: 30rem;
+
   object-fit: cover;   
   object-position: center;
   border-radius: 0.5rem; 
-  border: 2px solid rgba(0, 0, 0, 0.397);
   max-height: 30vh;
   transition: transform 0.3s ease;
+    transition-delay: .3s;
 }
 
 
 .overlay-content img:hover {
-    transform: scale(1.2);
+  cursor: zoom-in;
+    transform: translateY(3.3rem) scale(1.5);
+}
+.overlay-content img:not(:hover) {
+  transition-delay: 0s;
 }
 
 /* Légende */
