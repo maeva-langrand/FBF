@@ -34,7 +34,7 @@ app.use(session({
 }));
 
 app.use((req, res, next) => {
-  res.locals.admin = req.session.admin || null;
+  res.locals.admin = req.session?.admin || null;
   next();
 });
 
