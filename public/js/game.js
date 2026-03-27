@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const timerEl = document.getElementById("timer");
 
   // TImer de départ
-  let timerValue = 30;
+  let timerValue = 45;
   let timerFinished = false;
 
   //Timer de questions

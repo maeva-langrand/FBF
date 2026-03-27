@@ -109,7 +109,6 @@ function generateGameCards(players, allQuestions, totalQuestions, questionsPerPr
 
 
   // CCOmplétion avec UNIQUEMENT les themes non préférés
-
   const remainingNeeded = totalQuestions - cards.length;
 
   const remainingPool = allQuestions.filter(q =>
@@ -134,7 +133,7 @@ function generateGameCards(players, allQuestions, totalQuestions, questionsPerPr
   });
 
  
-  // MÉlange 
+  // Mélange 
   return cards
     .sort(() => Math.random() - 0.5)
     .map((q, index) => ({
