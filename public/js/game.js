@@ -107,6 +107,28 @@ function updateQuestionTimerUI() {
       cardEl.dataset.themeColor = card.theme_color;
       cardEl.dataset.themeName = card.theme_name;
       cardEl.style.backgroundColor = card.theme_color;
+cardEl.style.background = `
+linear-gradient(
+  145deg,
+  rgba(255,255,255,0.1),
+  rgba(255,255,255,0)
+),
+${card.theme_color}
+`;
+cardEl.style.boxShadow = "4px 4px 10px rgba(0,0,0,0.12)";
+cardEl.style.border = "2px solid rgba(255, 255, 255, 0.1)";
+cardEl.style.transition = "transform 0.2s, box-shadow 0.2s";
+
+cardEl.addEventListener("mouseenter", () => {
+  if (cardEl.classList.contains("played")) return;
+  cardEl.style.transform = "translateY(-4px)";
+});
+
+cardEl.addEventListener("mouseleave", () => {
+  if (cardEl.classList.contains("played")) return;
+  cardEl.style.transform = "translateY(0)";
+});
+
       cardEl.innerHTML = `<div class="card-number">${card.number}</div>`;
 
       if (card.played) cardEl.classList.add("played");
@@ -358,5 +380,12 @@ document.getElementById("replayBtn").onclick = () => location.href = "/";
 
   // Classement
   updateScores();
+
+    // ⚠️ Confirmation avant de quitter la page
+  window.addEventListener("beforeunload", (e) => {
+    e.preventDefault();
+    e.returnValue = "⚠️ Vous avez une partie en cours ! Êtes-vous sûr de vouloir quitter ?";
+    return "⚠️ Vous avez une partie en cours ! Êtes-vous sûr de vouloir quitter ?";
+  });
 
 });
